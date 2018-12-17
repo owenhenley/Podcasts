@@ -11,17 +11,18 @@ import Alamofire
 
 class SearchNC: UITableViewController, UISearchBarDelegate {
     
-        // MARK: - Properties
+    // MARK: - Properties
     
     let searchController = UISearchController(searchResultsController: nil)
-    let mockPodcasts = [
-        Podcast(name: "podcast1", artist: "artist1"),
-        Podcast(name: "podcast2", artist: "artist2"),
-        Podcast(name: "podcast3", artist: "artist3"),
-        Podcast(name: "podcast4", artist: "artist4")
+    // var podcasts = [Podcast]()
+    var mockPodcasts = [
+        Podcast(trackName: "podcast1", artistName: "artist1"),
+        Podcast(trackName: "podcast2", artistName: "artist2"),
+        Podcast(trackName: "podcast3", artistName: "artist3"),
+        Podcast(trackName: "podcast4", artistName: "artist4")
     ]
     
-        // MARK: - LifeCycle
+    // MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +30,7 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     }
     
     
-        // MARK: - SetupFunctions
+    // MARK: - SetupFunctions
     
     fileprivate func setupViews() {
         setupSearchBar()
@@ -49,12 +50,15 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     }
     
     
-        // MARK: - UISearchBar Methods
+    // MARK: - UISearchBar Methods
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         #warning("Refactor this")
-        let url = "https://itunes.apple.com/search?term=\(searchText)"
-        Alamofire.request(url).responseData { (response) in
+        let url = "https://itunes.apple.com/search"
+        let parameters = ["term" : searchText, "media" : "podcasts"]
+        
+        Alamofire.request(url, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseData { (response) in
+            
             if let error = response.error {
                 print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
                 return
@@ -62,13 +66,24 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
             
             guard let data = response.data else { return }
             
-            let dummyString = String(data: data, encoding: .utf8)
-            print(dummyString ?? "")
+            // let dummyString = String(data: data, encoding: .utf8)
+            // print(dummyString ?? "")
+            
+            do {
+                let searchResults = try JSONDecoder().decode(SearchResults.self, from: data)
+                searchResults.results.forEach({ (podcast) in
+                })
+                self.mockPodcasts = searchResults.results
+                self.tableView.reloadData()
+            } catch {
+                print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
+                return
+            }
         }
     }
     
     
-        // MARK: - UITableView DataSource
+    // MARK: - UITableView DataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return mockPodcasts.count
@@ -78,7 +93,7 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableCells.podcastSearchCell, for: indexPath)
         let podcast = self.mockPodcasts[indexPath.row]
         
-        cell.textLabel?.text = "\(podcast.name)\n\(podcast.artist)"
+        cell.textLabel?.text = "\(podcast.trackName ?? "")\n\(podcast.artistName ?? "")"
         cell.textLabel?.numberOfLines = 0
         cell.imageView?.image = Icon.DefaultSmall
         cell.selectionStyle = .none
