@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SearchNC: UITableViewController, UISearchBarDelegate {
     
@@ -51,7 +52,19 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
         // MARK: - UISearchBar Methods
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // TODO: -  Impliment Alamofire
+        #warning("Refactor this")
+        let url = "https://itunes.apple.com/search?term=\(searchText)"
+        Alamofire.request(url).responseData { (response) in
+            if let error = response.error {
+                print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
+                return
+            }
+            
+            guard let data = response.data else { return }
+            
+            let dummyString = String(data: data, encoding: .utf8)
+            print(dummyString ?? "")
+        }
     }
     
     
