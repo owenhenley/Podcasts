@@ -15,17 +15,19 @@ class MainTabBarController: UITabBarController {
         setupNavigation()
     }
     
+    
         // MARK: - Setup Methods
     
     private func setupNavigation() {
         UINavigationBar.appearance().prefersLargeTitles = true
         tabBar.tintColor = .purple
         viewControllers = [
+            generateNavigationController(with: SearchNC(), title: "Search", andImage: TabBarIcon.Search),
             generateNavigationController(with: ViewController(), title: "Favorites", andImage: TabBarIcon.Favorites),
-            generateNavigationController(with: ViewController(), title: "Search", andImage: TabBarIcon.Search),
             generateNavigationController(with: ViewController(), title: "Downloads", andImage: TabBarIcon.Downloads)
         ]
     }
+    
     
         // MARK: - Helper Methods
     
@@ -38,5 +40,6 @@ class MainTabBarController: UITabBarController {
         navController.tabBarItem.image = image
         return navController
     }
+    
     
 }

@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct Icon {
+    static let Default = UIImage(named: "podcastIcon")
+    static let DefaultSmall = UIImage(named: "podcastIconSmall")
+}
+
 struct TabBarIcon {
     static let Downloads = UIImage(named: "downloads")!
     static let Favorites = UIImage(named: "favorites")!
@@ -21,4 +26,8 @@ struct PlayerIcons {
     static let Pause       = UIImage(named: "Pause")!
     static let MaxVolume   = UIImage(named: "max_volume")!
     static let Muted       = UIImage(named: "muted_volume")!
+}
+
+struct TableCells {
+    static let podcastSearchCell = "podcastSearchCell"
 }
