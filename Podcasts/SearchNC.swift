@@ -41,7 +41,9 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     
     fileprivate func setupTableView() {
         // Register cell to tableView.
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: TableCells.podcastSearchCell)
+        // tableView.register(UITableViewCell.self, forCellReuseIdentifier: TableCells.podcastSearchCell)
+        let nib = UINib(nibName: "PodcastCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: TableCells.podcastSearchCell)
     }
     
     
@@ -57,17 +59,19 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     
     // MARK: - UITableView DataSource
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 132
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return podcasts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableCells.podcastSearchCell, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableCells.podcastSearchCell, for: indexPath) as! PodcastCell
         let podcast = self.podcasts[indexPath.row]
         
-        cell.textLabel?.text = "\(podcast.trackName ?? "")\n\(podcast.artistName ?? "")"
-        cell.textLabel?.numberOfLines = 0
-        cell.imageView?.image = Icon.DefaultSmall
+        cell.podcast = podcast
         cell.selectionStyle = .none
         
         return cell
