@@ -14,7 +14,10 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     // MARK: - Properties
     
     let searchController = UISearchController(searchResultsController: nil)
-    var podcasts = [Podcast]()
+    var podcasts = [
+        Podcast(trackName: "Lets Build That App", artistName: "Brian Voong"),
+        Podcast(trackName: "Some Podcast", artistName: "Some Author"),
+    ]
     
     
     // MARK: - LifeCycle
@@ -68,12 +71,10 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableCells.podcastSearchCell, for: indexPath) as! PodcastCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableCells.podcastSearchCell, for: indexPath) as? PodcastCell else { return UITableViewCell() }
         let podcast = self.podcasts[indexPath.row]
-        
         cell.podcast = podcast
         cell.selectionStyle = .none
-        
         return cell
     }
     

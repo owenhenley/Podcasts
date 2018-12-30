@@ -15,10 +15,8 @@
 		3E3B05E021C86DAC005F4B3B /* PodcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3B05DF21C86DAC005F4B3B /* PodcastCell.swift */; };
 		3E9E48C121C5E7CE00FFBCF6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E48C021C5E7CE00FFBCF6 /* ViewController.swift */; };
 		3E9E48C421C5EA2D00FFBCF6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E48C321C5EA2D00FFBCF6 /* Constants.swift */; };
-		3E9E48C621C5EC6900FFBCF6 /* DownloadsNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E48C521C5EC6900FFBCF6 /* DownloadsNC.swift */; };
 		3E9E48C821C5EC7D00FFBCF6 /* SearchNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E48C721C5EC7D00FFBCF6 /* SearchNC.swift */; };
 		3EB3472221C7228F009DE90C /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB3472121C7228F009DE90C /* Podcast.swift */; };
-		3EB5855F21C819D200DF61C8 /* SearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5855E21C819D200DF61C8 /* SearchResults.swift */; };
 		3EB5856221C8207F00DF61C8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5856121C8207F00DF61C8 /* APIService.swift */; };
 		6DEB9B45A0E37526061F9FF7 /* Pods_Podcasts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A8DED9680A2D0F93DFA839 /* Pods_Podcasts.framework */; };
 /* End PBXBuildFile section */
@@ -35,10 +33,8 @@
 		3E3B05DF21C86DAC005F4B3B /* PodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastCell.swift; sourceTree = "<group>"; };
 		3E9E48C021C5E7CE00FFBCF6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3E9E48C321C5EA2D00FFBCF6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		3E9E48C521C5EC6900FFBCF6 /* DownloadsNC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsNC.swift; sourceTree = "<group>"; };
 		3E9E48C721C5EC7D00FFBCF6 /* SearchNC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNC.swift; sourceTree = "<group>"; };
 		3EB3472121C7228F009DE90C /* Podcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
-		3EB5855E21C819D200DF61C8 /* SearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResults.swift; sourceTree = "<group>"; };
 		3EB5856121C8207F00DF61C8 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		41A8DED9680A2D0F93DFA839 /* Pods_Podcasts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Podcasts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D3D9C0F3955D0B4F176B00 /* Pods-Podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcasts.debug.xcconfig"; path = "Target Support Files/Pods-Podcasts/Pods-Podcasts.debug.xcconfig"; sourceTree = "<group>"; };
@@ -91,7 +87,6 @@
 			isa = PBXGroup;
 			children = (
 				3EB3472121C7228F009DE90C /* Podcast.swift */,
-				3EB5855E21C819D200DF61C8 /* SearchResults.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -117,7 +112,6 @@
 			children = (
 				3E16A2C221C4CCFF00E2745D /* MainTabBarController.swift */,
 				3E9E48C021C5E7CE00FFBCF6 /* ViewController.swift */,
-				3E9E48C521C5EC6900FFBCF6 /* DownloadsNC.swift */,
 				3E9E48C721C5EC7D00FFBCF6 /* SearchNC.swift */,
 			);
 			name = "View Controllers";
@@ -301,11 +295,9 @@
 				3E3B05E021C86DAC005F4B3B /* PodcastCell.swift in Sources */,
 				3E9E48C821C5EC7D00FFBCF6 /* SearchNC.swift in Sources */,
 				3E16A2B621C4CCC800E2745D /* AppDelegate.swift in Sources */,
-				3EB5855F21C819D200DF61C8 /* SearchResults.swift in Sources */,
 				3E9E48C121C5E7CE00FFBCF6 /* ViewController.swift in Sources */,
 				3E9E48C421C5EA2D00FFBCF6 /* Constants.swift in Sources */,
 				3EB5856221C8207F00DF61C8 /* APIService.swift in Sources */,
-				3E9E48C621C5EC6900FFBCF6 /* DownloadsNC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,32 +13,30 @@ class APIService {
     
         // MARK: - Properties
     
-    static let shared = APIService()
     let baseiTunesSearchURL = "https://itunes.apple.com/search"
+    static let shared = APIService()
     
     
         // MARK: - Methods
     
-    func fetchPodcasts(searchText: String, completion: @escaping ([Podcast]) -> ()) {
-        let parameters = ["term" : searchText, "media" : "podcasts"]
+    func fetchPodcasts(searchText: String, completionHandler: @escaping ([Podcast]) -> ()) {
+        print("Searching for podcasts...")
         
-        Alamofire.request(baseiTunesSearchURL, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseData { (response) in
+        let parameters = ["term": searchText, "media": "podcast"]
+        
+        Alamofire.request(baseiTunesSearchURL, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseData { (dataResponse) in
             
-            if let error = response.error {
+            if let error = dataResponse.error {
                 print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
                 return
             }
             
-            guard let data = response.data else { return }
-            
+            guard let data = dataResponse.data else { return }
             do {
-                let searchResults = try JSONDecoder().decode(SearchResults.self, from: data)
-                searchResults.results.forEach({ (podcast) in
-                })
-                completion(searchResults.results)
+                let searchResult = try JSONDecoder().decode(SearchResults.self, from: data)
+                completionHandler(searchResult.results)
             } catch {
                 print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
-                return
             }
         }
     }

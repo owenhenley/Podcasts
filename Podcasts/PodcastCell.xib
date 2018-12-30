@@ -21,7 +21,7 @@
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Bmk-Un-qqh">
                         <rect key="frame" x="16" y="24" width="394" height="100"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dh3-IR-E7c">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="podcastIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Dh3-IR-E7c">
                                 <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="GRp-oW-5Xa"/>
@@ -68,10 +68,8 @@
             </connections>
             <point key="canvasLocation" x="262" y="-13"/>
         </tableViewCell>
-        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="MfU-dk-t1Y">
-            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <point key="canvasLocation" x="-186" y="196"/>
-        </imageView>
     </objects>
+    <resources>
+        <image name="podcastIcon" width="1500" height="1500"/>
+    </resources>
 </document>
