@@ -12,13 +12,13 @@ import FeedKit
 
 class EpisodesVC: UITableViewController {
     
+    fileprivate var episodes = [Episode]()
     var podcast: Podcast? {
         didSet {
             navigationItem.title = podcast?.trackName
             fetchEpisodes()
         }
     }
-    fileprivate var episodes = [Episode]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,33 +37,13 @@ class EpisodesVC: UITableViewController {
     
     fileprivate func fetchEpisodes() {
         guard let feedURL = podcast?.feedUrl else { return }
-        let secureFeedURL = feedURL.contains("https") ? feedURL : feedURL.replacingOccurrences(of: "http", with: "https")
-        guard let url = URL(string: secureFeedURL) else { return }
-        
-        let feedParser = FeedParser(URL: url)
-        feedParser.parseAsync { (result) in
-            print("Success:", result.isSuccess)
-
-            switch result {
-            case let .rss(feed): // Really Simple Syndication Feed Model
-                self.appendFeeds(feed)
-                break
-            case let .failure(error):
-                print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
-                break
-            default:
-                print("Found a feed...")
-            }
+        APIService.shared.fetchEpisodes(feedURL: feedURL) { (episodes) in
+            self.episodes = episodes
+            self.reloadTableView()
         }
     }
     
-    fileprivate func appendFeeds(_ feed: RSSFeed) {
-        var parsedEpisodes = [Episode]()
-        feed.items?.forEach { (feedItem) in
-            let parsedEpisode = Episode(feedItem: feedItem)
-            parsedEpisodes.append(parsedEpisode)
-        }
-        self.episodes = parsedEpisodes
+    fileprivate func reloadTableView() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

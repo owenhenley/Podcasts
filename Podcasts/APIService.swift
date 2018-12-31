@@ -8,16 +8,17 @@
 
 import Foundation
 import Alamofire
+import FeedKit
 
 class APIService {
     
-        // MARK: - Properties
+    // MARK: - Properties
     
     let baseiTunesSearchURL = "https://itunes.apple.com/search"
     static let shared = APIService()
     
     
-        // MARK: - Methods
+    // MARK: - Methods
     
     func fetchPodcasts(searchText: String, completionHandler: @escaping ([Podcast]) -> ()) {
         
@@ -37,6 +38,25 @@ class APIService {
             } catch {
                 print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
             }
+        }
+    }
+    
+    func fetchEpisodes(feedURL: String, completion: @escaping ([Episode]) -> ()) {
+        let secureFeedURL = feedURL.convertedToHTTPS()
+        guard let url = URL(string: secureFeedURL) else { return }
+        
+        let feedParser = FeedParser(URL: url)
+        feedParser.parseAsync { (result) in
+            print("Success:", result.isSuccess)
+            
+            if let error = result.error {
+                print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
+                return
+            }
+            
+            guard let feed = result.rssFeed else { return }
+            let episodes = feed.asEpisodes()
+            completion(episodes)
         }
     }
 }

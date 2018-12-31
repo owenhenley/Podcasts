@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="504" height="149.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="podcastIcon" translatesAutoresizingMaskIntoConstraints="NO" id="tJN-Gy-FbP">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="podcastIcon" translatesAutoresizingMaskIntoConstraints="NO" id="tJN-Gy-FbP">
                         <rect key="frame" x="16" y="30" width="90" height="90"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="90" id="PQ9-ZF-6bU"/>
@@ -69,6 +69,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="podcastIcon" width="1500" height="1500"/>
+        <image name="podcastIcon" width="512" height="512"/>
     </resources>
 </document>

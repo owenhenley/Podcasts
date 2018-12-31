@@ -17,7 +17,6 @@ class EpisodeCell: UITableViewCell {
             titleLabel.numberOfLines = 2
         }
     }
-    
     @IBOutlet weak var descriptionLabel: UILabel! {
         didSet {
             descriptionLabel.numberOfLines = 2
@@ -32,9 +31,8 @@ class EpisodeCell: UITableViewCell {
             publishedDate.text = "\(dateFormatter.string(from: episode.pubDate))"
             titleLabel.text = episode?.title
             descriptionLabel.text = episode?.description
+            let iconURL = URL(string: episode.iconURL?.convertedToHTTPS() ?? "")
+            episodeIcon.sd_setImage(with: iconURL)
         }
     }
-    
-    
-    
 }
