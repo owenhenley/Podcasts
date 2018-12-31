@@ -30,4 +30,5 @@ struct PlayerIcons {
 
 struct TableCells {
     static let podcastSearchCell = "podcastSearchCell"
+    static let podcastEpisodeCell = "podcastEpisodeCell"
 }

@@ -20,7 +20,6 @@ class APIService {
         // MARK: - Methods
     
     func fetchPodcasts(searchText: String, completionHandler: @escaping ([Podcast]) -> ()) {
-        print("Searching for podcasts...")
         
         let parameters = ["term": searchText, "media": "podcast"]
         

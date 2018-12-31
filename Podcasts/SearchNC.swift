@@ -14,10 +14,7 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     // MARK: - Properties
     
     let searchController = UISearchController(searchResultsController: nil)
-    var podcasts = [
-        Podcast(trackName: "Lets Build That App", artistName: "Brian Voong"),
-        Podcast(trackName: "Some Podcast", artistName: "Some Author"),
-    ]
+    var podcasts = [Podcast]()
     
     
     // MARK: - LifeCycle
@@ -36,6 +33,7 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     }
     
     fileprivate func setupSearchBar() {
+        self.definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.dimsBackgroundDuringPresentation = false
@@ -45,6 +43,7 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     fileprivate func setupTableView() {
         // Register cell to tableView.
         // tableView.register(UITableViewCell.self, forCellReuseIdentifier: TableCells.podcastSearchCell)
+        tableView.tableFooterView = UIView()
         let nib = UINib(nibName: "PodcastCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: TableCells.podcastSearchCell)
     }
@@ -60,7 +59,28 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
     }
     
     
-    // MARK: - UITableView DataSource
+        // MARK: - UITableView DataSource
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let episodesVC = EpisodesVC()
+        let podcast = self.podcasts[indexPath.row]
+        episodesVC.podcast = podcast
+        navigationController?.pushViewController(episodesVC, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "What are you searching for?"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        return label
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        
+        return self.podcasts.count > 0 ? 0 : 250
+    }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 132
@@ -74,7 +94,6 @@ class SearchNC: UITableViewController, UISearchBarDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableCells.podcastSearchCell, for: indexPath) as? PodcastCell else { return UITableViewCell() }
         let podcast = self.podcasts[indexPath.row]
         cell.podcast = podcast
-        cell.selectionStyle = .none
         return cell
     }
     
