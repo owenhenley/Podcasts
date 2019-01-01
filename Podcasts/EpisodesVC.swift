@@ -12,8 +12,12 @@ import FeedKit
 
 class EpisodesVC: UITableViewController {
     
-    /// An array of Episodes to be displayed on the UITableView
+        // MARK: - Properties
+    
     fileprivate var episodes = [Episode]()
+    
+        // MARK: Computed Properties
+    
     var podcast: Podcast? {
         didSet {
             navigationItem.title = podcast?.trackName
@@ -21,10 +25,15 @@ class EpisodesVC: UITableViewController {
         }
     }
 
+    
+        // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
     }
+    
+    
     
         // MARK: - Setup Methods
     
@@ -48,13 +57,15 @@ class EpisodesVC: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let episode = self.episodes[indexPath.row]
-        print("starting playback for ", episode.title)
-        let audioPlayerView = Bundle.main.loadNibNamed("PlayerView", owner: self, options: nil)?.first as! AudioPlayerView
-        audioPlayerView.episode = episode
-        audioPlayerView.frame = self.view.frame
-        let window = UIApplication.shared.keyWindow
-        window?.addSubview(audioPlayerView)
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
+        mainTabBarController?.openAudioPlayer(episode: episode)
+        
+        // let audioPlayerView = AudioPlayerView.initFromNib()
+        // audioPlayerView.frame = self.view.frame
+        // let window = UIApplication.shared.keyWindow
+        // window?.addSubview(audioPlayerView)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

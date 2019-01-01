@@ -10,15 +10,27 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     
+        // MARK: - Properties
+    
+    let audioPlayerView = AudioPlayerView.initFromNib()
+    var openedTopAnchorConstraint: NSLayoutConstraint!
+    var loweredTopAnchorConstraint: NSLayoutConstraint!
+    
+    
+    
+        // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
+        setupAudioPlayerView()
     }
+    
     
     
         // MARK: - Setup Methods
     
-    private func setupNavigation() {
+    fileprivate func setupNavigation() {
         UINavigationBar.appearance().prefersLargeTitles = true
         tabBar.tintColor = .purple
         viewControllers = [
@@ -27,6 +39,55 @@ class MainTabBarController: UITabBarController {
             generateNavigationController(with: ViewController(), title: "Downloads", andImage: TabBarIcon.Downloads)
         ]
     }
+    
+    fileprivate func setupAudioPlayerView() {
+        // audioPlayerView.backgroundColor = .red
+        audioPlayerView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(audioPlayerView, belowSubview: tabBar)
+        
+        openedTopAnchorConstraint = audioPlayerView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height)
+        openedTopAnchorConstraint.isActive = true
+        loweredTopAnchorConstraint = audioPlayerView.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -64)
+        // loweredTopAnchorConstraint.isActive = true
+        
+        audioPlayerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        audioPlayerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        audioPlayerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    
+    
+        // MARK: - Methods
+    
+    @objc func lowerAudioPlayerDetails() {
+        openedTopAnchorConstraint.isActive = false
+        loweredTopAnchorConstraint.isActive = true
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+            self.tabBar.transform = .identity
+            self.audioPlayerView.openedPlayerStackView.isHidden = true
+            self.audioPlayerView.audioPlayerMiniView.isHidden = false
+        })
+    }
+    
+    func openAudioPlayer(episode: Episode?) {
+        openedTopAnchorConstraint.isActive = true
+        openedTopAnchorConstraint.constant = 0
+        loweredTopAnchorConstraint.isActive = false
+        
+        if episode != nil {
+            audioPlayerView.episode = episode            
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+            self.tabBar.transform = CGAffineTransform(translationX: 0, y: 100)
+            self.audioPlayerView.openedPlayerStackView.isHidden = false
+            self.audioPlayerView.audioPlayerMiniView.isHidden = true
+        })
+    }
+    
     
     
         // MARK: - Helper Methods

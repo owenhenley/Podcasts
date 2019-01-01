@@ -13,6 +13,17 @@ class AudioPlayerView: UIView {
 
         // MARK: - Outlets
     
+    @IBOutlet weak var openedPlayerStackView: UIStackView!
+    @IBOutlet weak var audioPlayerMiniView: UIView!
+    
+        // MARK: Mini Player
+    
+    @IBOutlet weak var miniEpisodeIconImageView: UIImageView!
+    @IBOutlet weak var miniEpisodeTitle: UILabel!
+    @IBOutlet weak var miniFastForwardButton: UIButton!
+    
+        // MARK: Full Player
+
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
@@ -20,9 +31,9 @@ class AudioPlayerView: UIView {
     
         // MARK: Computed Outlets
     
-    @IBOutlet weak var backButton: UIButton! {
+    @IBOutlet weak var dismissButton: UIButton! {
         didSet {
-            backButton.contentHorizontalAlignment = .left
+            dismissButton.contentHorizontalAlignment = .center
         }
     }
     
@@ -47,6 +58,12 @@ class AudioPlayerView: UIView {
         }
     }
     
+    @IBOutlet weak var miniPlayPauseButton: UIButton! {
+        didSet {
+            miniPlayPauseButton.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
+        }
+    }
+    
     
     
         // MARK: - Properties
@@ -65,9 +82,11 @@ class AudioPlayerView: UIView {
         didSet {
             playEpisode()
             episodeTitleLabel.text = episode.title
+            miniEpisodeTitle.text = episode.title
             authorLabel.text = episode.author
             guard let imageURL = URL(string: episode.iconURL?.convertedToHTTPS() ?? "") else { return }
             episodeIconImageView.sd_setImage(with: imageURL)
+            miniEpisodeIconImageView.sd_setImage(with: imageURL)
         }
     }
     
@@ -75,9 +94,10 @@ class AudioPlayerView: UIView {
     
         // MARK: - Lifecycle
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openAudioPlayerView)))
         
         observePlayerCurrentTime()
         
@@ -89,6 +109,10 @@ class AudioPlayerView: UIView {
         }
     }
     
+    static func initFromNib() -> AudioPlayerView {
+        return Bundle.main.loadNibNamed("AudioPlayerView", owner: self, options: nil)?.first as! AudioPlayerView
+    }
+    
     deinit {
         print("PlayerView memory being reclaimed...")
     }
@@ -96,6 +120,11 @@ class AudioPlayerView: UIView {
     
     
         // MARK: - Methods
+    
+    @objc func openAudioPlayerView() {
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
+        mainTabBarController?.openAudioPlayer(episode: nil)
+    }
     
     fileprivate func observePlayerCurrentTime() {
         let interval = CMTimeMake(value: 1, timescale: 2)
@@ -119,28 +148,29 @@ class AudioPlayerView: UIView {
         if player.timeControlStatus == .paused {
             player.play()
             playPauseButton.setImage(PlayerIcons.Pause, for: .normal)
+            miniPlayPauseButton.setImage(PlayerIcons.Pause, for: .normal)
             enlargeEpisodeImageView()
         } else {
             player.pause()
             playPauseButton.setImage(PlayerIcons.Play, for: .normal)
+            miniPlayPauseButton.setImage(PlayerIcons.Play, for: .normal)
             shrinkEpisodeImageView()
         }
     }
     
     fileprivate func enlargeEpisodeImageView() {
-        UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 1.1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.episodeIconImageView.transform = .identity
         })
     }
     
     fileprivate func shrinkEpisodeImageView() {
-        UIView.animate(withDuration: 0.75, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 1.1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.episodeIconImageView.transform = self.shrunkenImageScale
         })
     }
     
     fileprivate func playEpisode() {
-        print("Trying to play episode: ", episode.title, episode.streamURL)
         guard let streamURL = URL(string: episode.streamURL) else { return }
         let playerItem = AVPlayerItem(url: streamURL)
         player.replaceCurrentItem(with: playerItem)
@@ -157,8 +187,9 @@ class AudioPlayerView: UIView {
     
         // MARK: - Actions
     
-    @IBAction func backTapped(_ sender: UIButton) {
-        self.removeFromSuperview()
+    @IBAction func dismissTapped(_ sender: UIButton) {
+        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
+        mainTabBarController?.lowerAudioPlayerDetails()
     }
     
     @IBAction func handleCurrentTimeSliderChange(_ sender: UISlider) {

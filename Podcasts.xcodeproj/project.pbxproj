@@ -24,13 +24,14 @@
 		3E700D5821DAD21E009515BC /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E700D5721DAD21E009515BC /* AudioPlayerView.swift */; };
 		3E700D5A21DAF883009515BC /* CMTime+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E700D5921DAF883009515BC /* CMTime+Ext.swift */; };
 		3E700D5C21DB1510009515BC /* PodcastsSearchingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E700D5B21DB1510009515BC /* PodcastsSearchingView.xib */; };
+		3E7AE0CF21DC10A100C99EF4 /* AutoLayoutExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7AE0CE21DC10A100C99EF4 /* AutoLayoutExt.swift */; };
 		3E9491ED21D951590089E224 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9491EC21D951590089E224 /* Default-568h@2x.png */; };
 		3E9E48C121C5E7CE00FFBCF6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E48C021C5E7CE00FFBCF6 /* ViewController.swift */; };
 		3E9E48C421C5EA2D00FFBCF6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E48C321C5EA2D00FFBCF6 /* Constants.swift */; };
 		3E9E48C821C5EC7D00FFBCF6 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E48C721C5EC7D00FFBCF6 /* SearchVC.swift */; };
 		3EB3472221C7228F009DE90C /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB3472121C7228F009DE90C /* Podcast.swift */; };
 		3EB5856221C8207F00DF61C8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5856121C8207F00DF61C8 /* APIService.swift */; };
-		3EBE724421DACF8900E2E85A /* PlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EBE724321DACF8900E2E85A /* PlayerView.xib */; };
+		3EBE724421DACF8900E2E85A /* AudioPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EBE724321DACF8900E2E85A /* AudioPlayerView.xib */; };
 		6DEB9B45A0E37526061F9FF7 /* Pods_Podcasts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A8DED9680A2D0F93DFA839 /* Pods_Podcasts.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,13 +57,14 @@
 		3E700D5721DAD21E009515BC /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
 		3E700D5921DAF883009515BC /* CMTime+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime+Ext.swift"; sourceTree = "<group>"; };
 		3E700D5B21DB1510009515BC /* PodcastsSearchingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastsSearchingView.xib; sourceTree = "<group>"; };
+		3E7AE0CE21DC10A100C99EF4 /* AutoLayoutExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutExt.swift; sourceTree = "<group>"; };
 		3E9491EC21D951590089E224 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3E9E48C021C5E7CE00FFBCF6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3E9E48C321C5EA2D00FFBCF6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3E9E48C721C5EC7D00FFBCF6 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		3EB3472121C7228F009DE90C /* Podcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
 		3EB5856121C8207F00DF61C8 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		3EBE724321DACF8900E2E85A /* PlayerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerView.xib; sourceTree = "<group>"; };
+		3EBE724321DACF8900E2E85A /* AudioPlayerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioPlayerView.xib; sourceTree = "<group>"; };
 		41A8DED9680A2D0F93DFA839 /* Pods_Podcasts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Podcasts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C1D46023ABCB8158A0D543 /* Pods-Podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcasts.release.xcconfig"; path = "Pods/Target Support Files/Pods-Podcasts/Pods-Podcasts.release.xcconfig"; sourceTree = "<group>"; };
 		84D3D9C0F3955D0B4F176B00 /* Pods-Podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcasts.debug.xcconfig"; path = "Target Support Files/Pods-Podcasts/Pods-Podcasts.debug.xcconfig"; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		3E18D5C121DAA9B70094CE94 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3E7AE0CE21DC10A100C99EF4 /* AutoLayoutExt.swift */,
 				3E18D5C221DAA9CA0094CE94 /* String+Ext.swift */,
 				3E18D5C421DAAAD40094CE94 /* RSSFeed+Ext.swift */,
 				3E18D5C621DAB2930094CE94 /* UITableView+Ext.swift */,
@@ -204,7 +207,7 @@
 			children = (
 				3E3B05DD21C86ACC005F4B3B /* PodcastCell.xib */,
 				3E3778B521D9D854008349FD /* EpisodeCell.xib */,
-				3EBE724321DACF8900E2E85A /* PlayerView.xib */,
+				3EBE724321DACF8900E2E85A /* AudioPlayerView.xib */,
 				3E700D5B21DB1510009515BC /* PodcastsSearchingView.xib */,
 			);
 			name = "Interface Builder";
@@ -295,7 +298,7 @@
 				3E3778B721D9D854008349FD /* EpisodeCell.xib in Resources */,
 				3E16A2B821C4CCC900E2745D /* Assets.xcassets in Resources */,
 				3E3B05DE21C86ACC005F4B3B /* PodcastCell.xib in Resources */,
-				3EBE724421DACF8900E2E85A /* PlayerView.xib in Resources */,
+				3EBE724421DACF8900E2E85A /* AudioPlayerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +358,7 @@
 				3E700D5A21DAF883009515BC /* CMTime+Ext.swift in Sources */,
 				3E3B05E021C86DAC005F4B3B /* PodcastCell.swift in Sources */,
 				3E18D5C321DAA9CA0094CE94 /* String+Ext.swift in Sources */,
+				3E7AE0CF21DC10A100C99EF4 /* AutoLayoutExt.swift in Sources */,
 				3E3778B621D9D854008349FD /* EpisodeCell.swift in Sources */,
 				3E3778B321D9D751008349FD /* Episode.swift in Sources */,
 				3E0EFAB821D9605F0016E8F7 /* EpisodesVC.swift in Sources */,
