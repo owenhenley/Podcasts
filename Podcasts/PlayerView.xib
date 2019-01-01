@@ -38,23 +38,26 @@
                                 <constraint firstAttribute="width" secondItem="3jf-y6-qzW" secondAttribute="height" id="aIn-bi-a6H"/>
                             </constraints>
                         </imageView>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5LB-XK-ALs">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5LB-XK-ALs">
                             <rect key="frame" x="-2" y="379" width="331" height="41"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="UsL-Lo-1Ar"/>
                             </constraints>
+                            <connections>
+                                <action selector="handleCurrentTimeSliderChange:" destination="LJN-r1-ads" eventType="valueChanged" id="4CQ-LR-1YT"/>
+                            </connections>
                         </slider>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="pH8-wi-7Sq">
                             <rect key="frame" x="0.0" y="423" width="327" height="12"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="*current time*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6zp-P4-RU4">
-                                    <rect key="frame" x="0.0" y="0.0" width="67.666666666666671" height="12"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--:--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6zp-P4-RU4">
+                                    <rect key="frame" x="0.0" y="0.0" width="22.666666666666668" height="12"/>
                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="*time left*" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H4E-t5-hBw">
-                                    <rect key="frame" x="278.33333333333331" y="0.0" width="48.666666666666686" height="12"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--:--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H4E-t5-hBw">
+                                    <rect key="frame" x="304.33333333333331" y="0.0" width="22.666666666666686" height="12"/>
                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -89,6 +92,9 @@
                                     </constraints>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" image="rewind15"/>
+                                    <connections>
+                                        <action selector="rewind15Tapped:" destination="LJN-r1-ads" eventType="touchUpInside" id="eBw-kx-zg6"/>
+                                    </connections>
                                 </button>
                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e9q-Zh-tEz">
                                     <rect key="frame" x="92.666666666666671" y="0.0" width="49.000000000000014" height="183.66666666666666"/>
@@ -101,9 +107,6 @@
                                     </constraints>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" image="play"/>
-                                    <connections>
-                                        <action selector="playPauseTapped:" destination="LJN-r1-ads" eventType="touchUpInside" id="i97-EY-oBp"/>
-                                    </connections>
                                 </button>
                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Y2-KW-iMS">
                                     <rect key="frame" x="195.66666666666666" y="0.0" width="38.666666666666657" height="183.66666666666666"/>
@@ -116,6 +119,9 @@
                                     </constraints>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <state key="normal" image="fastforward15"/>
+                                    <connections>
+                                        <action selector="forward15Tapped:" destination="LJN-r1-ads" eventType="touchUpInside" id="Trb-Vq-M7V"/>
+                                    </connections>
                                 </button>
                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ay-zU-CLd">
                                     <rect key="frame" x="278.33333333333331" y="0.0" width="48.666666666666686" height="183.66666666666666"/>
@@ -132,8 +138,11 @@
                                         <constraint firstAttribute="width" secondItem="BXs-Yv-Nbo" secondAttribute="height" id="bKf-6b-mpS"/>
                                     </constraints>
                                 </imageView>
-                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="HSi-J7-UU9">
+                                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="HSi-J7-UU9">
                                     <rect key="frame" x="38" y="0.0" width="251" height="33"/>
+                                    <connections>
+                                        <action selector="handleVolumeChange:" destination="LJN-r1-ads" eventType="valueChanged" id="Ivm-P5-cTI"/>
+                                    </connections>
                                 </slider>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="max_volume" translatesAutoresizingMaskIntoConstraints="NO" id="H0l-2E-SoE">
                                     <rect key="frame" x="295" y="0.0" width="32" height="32"/>
@@ -161,6 +170,9 @@
             <connections>
                 <outlet property="authorLabel" destination="oMJ-ZA-KZS" id="1si-zy-d7J"/>
                 <outlet property="backButton" destination="mwR-Ah-MOf" id="eZR-gW-UXh"/>
+                <outlet property="currentTimeLabel" destination="6zp-P4-RU4" id="sMP-c5-oTL"/>
+                <outlet property="currentTimeSlider" destination="5LB-XK-ALs" id="H7n-PG-g3A"/>
+                <outlet property="durationLabel" destination="H4E-t5-hBw" id="h6z-T1-n5g"/>
                 <outlet property="episodeIconImageView" destination="3jf-y6-qzW" id="wUN-ig-CyT"/>
                 <outlet property="episodeTitleLabel" destination="Ob3-gh-Iwi" id="w1D-4U-cYu"/>
                 <outlet property="playPauseButton" destination="07K-ZI-9wD" id="62D-Ro-hF8"/>

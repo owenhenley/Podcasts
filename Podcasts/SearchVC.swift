@@ -15,6 +15,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     
     let searchController = UISearchController(searchResultsController: nil)
     var podcasts = [Podcast]()
+    var timer: Timer?
     
     
     // MARK: - LifeCycle
@@ -22,6 +23,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        searchBar(searchController.searchBar, textDidChange: "seanallen")
     }
     
     
@@ -41,22 +43,43 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     }
     
     fileprivate func setupTableView() {
-        // Register cell to tableView.
-        // tableView.register(UITableViewCell.self, forCellReuseIdentifier: TableCells.podcastSearchCell)
         tableView.tableFooterView = UIView()
         let nib = UINib(nibName: "PodcastCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: TableCells.podcastSearchCell)
+        tableView.keyboardDismissMode = .onDrag
+    }
+    
+        // MARK: - Methods
+    fileprivate func addActivityIndicator() -> UIView {
+        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicator.color = .blue
+        activityIndicator.startAnimating()
+        let searchingLabel = UILabel()
+        searchingLabel.text = "Searching..."
+        
+        let views: [UIView] = [activityIndicator, searchingLabel]
+        let activityView = UIStackView(arrangedSubviews: views)
+        activityView.axis = .vertical
+        // activityView.spacing = 8
+        activityView.alignment = .center
+        view.addSubview(activityView)
+        return activityView
     }
     
     
-    // MARK: - UISearchBar Methods
+    
+        // MARK: - UISearchBar Methods
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
-            self.podcasts = podcasts
-            self.tableView.reloadData()
-        }
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (timer) in
+            APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
+                self.podcasts = podcasts
+                self.tableView.reloadData()
+            }
+        })
     }
+    
     
     
         // MARK: - UITableView DataSource
@@ -68,6 +91,10 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         navigationController?.pushViewController(episodesVC, animated: true)
     }
     
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        resignFirstResponder()
+    }
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = "What are you searching for?"
@@ -77,8 +104,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        
         return self.podcasts.count > 0 ? 0 : 250
     }
     
@@ -95,6 +120,14 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         let podcast = self.podcasts[indexPath.row]
         cell.podcast = podcast
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return addActivityIndicator()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return podcasts.isEmpty ? (view.frame.height / 2) : 0
     }
     
 }

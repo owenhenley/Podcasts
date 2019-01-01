@@ -6,7 +6,6 @@
 //  Copyright © 2018 Owen Henley. All rights reserved.
 //
 
-import Foundation
 import FeedKit
 
 extension RSSFeed {

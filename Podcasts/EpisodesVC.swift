@@ -32,6 +32,7 @@ class EpisodesVC: UITableViewController {
         let nib = UINib(nibName: "EpisodeCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: TableCells.podcastEpisodeCell)
         tableView.tableFooterView = UIView()
+        tableView.keyboardDismissMode = .onDrag
     }
     
         // MARK: - Methods
@@ -70,5 +71,16 @@ class EpisodesVC: UITableViewController {
         cell.episode = episode
         tableView.tableFooterView = UIView()
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
+        activityIndicator.color = .blue
+        activityIndicator.startAnimating()
+        return activityIndicator
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return episodes.isEmpty ? (view.frame.height / 2) : 0
     }
 }

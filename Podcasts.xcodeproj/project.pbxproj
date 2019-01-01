@@ -22,6 +22,8 @@
 		3E3B05DE21C86ACC005F4B3B /* PodcastCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3B05DD21C86ACC005F4B3B /* PodcastCell.xib */; };
 		3E3B05E021C86DAC005F4B3B /* PodcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3B05DF21C86DAC005F4B3B /* PodcastCell.swift */; };
 		3E700D5821DAD21E009515BC /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E700D5721DAD21E009515BC /* AudioPlayerView.swift */; };
+		3E700D5A21DAF883009515BC /* CMTime+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E700D5921DAF883009515BC /* CMTime+Ext.swift */; };
+		3E700D5C21DB1510009515BC /* PodcastsSearchingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E700D5B21DB1510009515BC /* PodcastsSearchingView.xib */; };
 		3E9491ED21D951590089E224 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E9491EC21D951590089E224 /* Default-568h@2x.png */; };
 		3E9E48C121C5E7CE00FFBCF6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E48C021C5E7CE00FFBCF6 /* ViewController.swift */; };
 		3E9E48C421C5EA2D00FFBCF6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E48C321C5EA2D00FFBCF6 /* Constants.swift */; };
@@ -52,6 +54,8 @@
 		3E3B05DD21C86ACC005F4B3B /* PodcastCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastCell.xib; sourceTree = "<group>"; };
 		3E3B05DF21C86DAC005F4B3B /* PodcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastCell.swift; sourceTree = "<group>"; };
 		3E700D5721DAD21E009515BC /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
+		3E700D5921DAF883009515BC /* CMTime+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime+Ext.swift"; sourceTree = "<group>"; };
+		3E700D5B21DB1510009515BC /* PodcastsSearchingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PodcastsSearchingView.xib; sourceTree = "<group>"; };
 		3E9491EC21D951590089E224 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3E9E48C021C5E7CE00FFBCF6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3E9E48C321C5EA2D00FFBCF6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				3E18D5C221DAA9CA0094CE94 /* String+Ext.swift */,
 				3E18D5C421DAAAD40094CE94 /* RSSFeed+Ext.swift */,
 				3E18D5C621DAB2930094CE94 /* UITableView+Ext.swift */,
+				3E700D5921DAF883009515BC /* CMTime+Ext.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -200,6 +205,7 @@
 				3E3B05DD21C86ACC005F4B3B /* PodcastCell.xib */,
 				3E3778B521D9D854008349FD /* EpisodeCell.xib */,
 				3EBE724321DACF8900E2E85A /* PlayerView.xib */,
+				3E700D5B21DB1510009515BC /* PodcastsSearchingView.xib */,
 			);
 			name = "Interface Builder";
 			sourceTree = "<group>";
@@ -285,6 +291,7 @@
 			files = (
 				3E16A2BB21C4CCC900E2745D /* LaunchScreen.storyboard in Resources */,
 				3E9491ED21D951590089E224 /* Default-568h@2x.png in Resources */,
+				3E700D5C21DB1510009515BC /* PodcastsSearchingView.xib in Resources */,
 				3E3778B721D9D854008349FD /* EpisodeCell.xib in Resources */,
 				3E16A2B821C4CCC900E2745D /* Assets.xcassets in Resources */,
 				3E3B05DE21C86ACC005F4B3B /* PodcastCell.xib in Resources */,
@@ -345,6 +352,7 @@
 				3E18D5C521DAAAD40094CE94 /* RSSFeed+Ext.swift in Sources */,
 				3E16A2C321C4CCFF00E2745D /* MainTabBarController.swift in Sources */,
 				3EB3472221C7228F009DE90C /* Podcast.swift in Sources */,
+				3E700D5A21DAF883009515BC /* CMTime+Ext.swift in Sources */,
 				3E3B05E021C86DAC005F4B3B /* PodcastCell.swift in Sources */,
 				3E18D5C321DAA9CA0094CE94 /* String+Ext.swift in Sources */,
 				3E3778B621D9D854008349FD /* EpisodeCell.swift in Sources */,

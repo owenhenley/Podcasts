@@ -44,19 +44,20 @@ class APIService {
     func fetchEpisodes(feedURL: String, completion: @escaping ([Episode]) -> ()) {
         let secureFeedURL = feedURL.convertedToHTTPS()
         guard let url = URL(string: secureFeedURL) else { return }
-        
-        let feedParser = FeedParser(URL: url)
-        feedParser.parseAsync { (result) in
-            print("Success:", result.isSuccess)
-            
-            if let error = result.error {
-                print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
-                return
+        DispatchQueue.global(qos: .background).async {
+            let feedParser = FeedParser(URL: url)
+            feedParser.parseAsync { (result) in
+                print("Success:", result.isSuccess)
+                
+                if let error = result.error {
+                    print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
+                    return
+                }
+                
+                guard let feed = result.rssFeed else { return }
+                let episodes = feed.asEpisodes()
+                completion(episodes)
             }
-            
-            guard let feed = result.rssFeed else { return }
-            let episodes = feed.asEpisodes()
-            completion(episodes)
         }
     }
 }
