@@ -16,6 +16,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     let searchController = UISearchController(searchResultsController: nil)
     var podcasts = [Podcast]()
     var timer: Timer?
+    var searchingActivityIndictor = Bundle.main.loadNibNamed("PodcastsSearchingView", owner: self, options: nil)?.first as? UIView
     
     
     // MARK: - LifeCycle
@@ -71,8 +72,10 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         // MARK: - UISearchBar Methods
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        podcasts = []
+        tableView.reloadData()
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: false, block: { (timer) in
             APIService.shared.fetchPodcasts(searchText: searchText) { (podcasts) in
                 self.podcasts = podcasts
                 self.tableView.reloadData()
@@ -103,8 +106,16 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         return label
     }
     
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return searchingActivityIndictor
+    }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return self.podcasts.count > 0 ? 0 : 250
+        return podcasts.isEmpty && searchController.searchBar.text?.isEmpty == true ? 250 : 0
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return podcasts.isEmpty && searchController.searchBar.text?.isEmpty == false ? 250 : 0
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -120,14 +131,6 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         let podcast = self.podcasts[indexPath.row]
         cell.podcast = podcast
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return addActivityIndicator()
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return podcasts.isEmpty ? (view.frame.height / 2) : 0
     }
     
 }
