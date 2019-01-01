@@ -11,10 +11,7 @@ import FeedKit
 
 extension RSSFeed {
     
-    
-    /// Convert feed items into an array of Episodes
-    ///
-    /// - Returns: [Episode]
+    /// Convert the parsed RSSFeed items into an array of Episodes.
     func asEpisodes() -> [Episode] {
         let iconURL = iTunes?.iTunesImage?.attributes?.href
         var parsedEpisodes = [Episode]()

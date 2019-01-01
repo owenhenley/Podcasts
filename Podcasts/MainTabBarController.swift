@@ -22,7 +22,7 @@ class MainTabBarController: UITabBarController {
         UINavigationBar.appearance().prefersLargeTitles = true
         tabBar.tintColor = .purple
         viewControllers = [
-            generateNavigationController(with: SearchNC(), title: "Search", andImage: TabBarIcon.Search),
+            generateNavigationController(with: SearchVC(), title: "Search", andImage: TabBarIcon.Search),
             generateNavigationController(with: ViewController(), title: "Favorites", andImage: TabBarIcon.Favorites),
             generateNavigationController(with: ViewController(), title: "Downloads", andImage: TabBarIcon.Downloads)
         ]

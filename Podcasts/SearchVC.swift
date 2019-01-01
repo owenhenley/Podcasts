@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class SearchNC: UITableViewController, UISearchBarDelegate {
+class SearchVC: UITableViewController, UISearchBarDelegate {
     
     // MARK: - Properties
     

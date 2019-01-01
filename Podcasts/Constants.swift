@@ -23,7 +23,7 @@ struct PlayerIcons {
     static let FastForward = UIImage(named: "fastforward15")!
     static let Rewind      = UIImage(named: "rewind15")!
     static let Play        = UIImage(named: "play")!
-    static let Pause       = UIImage(named: "Pause")!
+    static let Pause       = UIImage(named: "pause")!
     static let MaxVolume   = UIImage(named: "max_volume")!
     static let Muted       = UIImage(named: "muted_volume")!
 }

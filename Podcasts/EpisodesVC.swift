@@ -12,6 +12,7 @@ import FeedKit
 
 class EpisodesVC: UITableViewController {
     
+    /// An array of Episodes to be displayed on the UITableView
     fileprivate var episodes = [Episode]()
     var podcast: Podcast? {
         didSet {
@@ -39,17 +40,21 @@ class EpisodesVC: UITableViewController {
         guard let feedURL = podcast?.feedUrl else { return }
         APIService.shared.fetchEpisodes(feedURL: feedURL) { (episodes) in
             self.episodes = episodes
-            self.reloadTableView()
-        }
-    }
-    
-    fileprivate func reloadTableView() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+            self.tableView.reloadOnMainThread()
         }
     }
 
     // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let episode = self.episodes[indexPath.row]
+        print("starting playback for ", episode.title)
+        let audioPlayerView = Bundle.main.loadNibNamed("PlayerView", owner: self, options: nil)?.first as! AudioPlayerView
+        audioPlayerView.episode = episode
+        audioPlayerView.frame = self.view.frame
+        let window = UIApplication.shared.keyWindow
+        window?.addSubview(audioPlayerView)
+    }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
