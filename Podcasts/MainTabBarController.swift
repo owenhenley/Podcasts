@@ -15,6 +15,7 @@ class MainTabBarController: UITabBarController {
     let audioPlayerView = AudioPlayerView.initFromNib()
     var openedTopAnchorConstraint: NSLayoutConstraint!
     var loweredTopAnchorConstraint: NSLayoutConstraint!
+    var bottomAnchorConstraint: NSLayoutConstraint!
     
     
     
@@ -47,12 +48,16 @@ class MainTabBarController: UITabBarController {
         
         openedTopAnchorConstraint = audioPlayerView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height)
         openedTopAnchorConstraint.isActive = true
+        
+        bottomAnchorConstraint = audioPlayerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: view.frame.height)
+        bottomAnchorConstraint.isActive = true
+        
         loweredTopAnchorConstraint = audioPlayerView.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: -64)
         // loweredTopAnchorConstraint.isActive = true
         
         audioPlayerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         audioPlayerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        audioPlayerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
     }
     
     
@@ -61,20 +66,22 @@ class MainTabBarController: UITabBarController {
     
     @objc func lowerAudioPlayerDetails() {
         openedTopAnchorConstraint.isActive = false
+        bottomAnchorConstraint.constant = view.frame.height
         loweredTopAnchorConstraint.isActive = true
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
             self.tabBar.transform = .identity
-            self.audioPlayerView.openedPlayerStackView.isHidden = true
-            self.audioPlayerView.audioPlayerMiniView.isHidden = false
+            self.audioPlayerView.openedPlayerStackView.alpha = 0
+            self.audioPlayerView.audioPlayerMiniView.alpha = 1
         })
     }
     
     func openAudioPlayer(episode: Episode?) {
+        loweredTopAnchorConstraint.isActive = false
         openedTopAnchorConstraint.isActive = true
         openedTopAnchorConstraint.constant = 0
-        loweredTopAnchorConstraint.isActive = false
+        bottomAnchorConstraint.constant = 0
         
         if episode != nil {
             audioPlayerView.episode = episode            
@@ -83,8 +90,8 @@ class MainTabBarController: UITabBarController {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
             self.tabBar.transform = CGAffineTransform(translationX: 0, y: 100)
-            self.audioPlayerView.openedPlayerStackView.isHidden = false
-            self.audioPlayerView.audioPlayerMiniView.isHidden = true
+            self.audioPlayerView.openedPlayerStackView.alpha = 1
+            self.audioPlayerView.audioPlayerMiniView.alpha = 0
         })
     }
     

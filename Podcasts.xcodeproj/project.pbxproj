@@ -32,6 +32,7 @@
 		3EB3472221C7228F009DE90C /* Podcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB3472121C7228F009DE90C /* Podcast.swift */; };
 		3EB5856221C8207F00DF61C8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5856121C8207F00DF61C8 /* APIService.swift */; };
 		3EBE724421DACF8900E2E85A /* AudioPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EBE724321DACF8900E2E85A /* AudioPlayerView.xib */; };
+		3EFF720721E9A172007F92F1 /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFF720621E9A172007F92F1 /* UIApplication+Ext.swift */; };
 		6DEB9B45A0E37526061F9FF7 /* Pods_Podcasts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A8DED9680A2D0F93DFA839 /* Pods_Podcasts.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		3EB3472121C7228F009DE90C /* Podcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Podcast.swift; sourceTree = "<group>"; };
 		3EB5856121C8207F00DF61C8 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		3EBE724321DACF8900E2E85A /* AudioPlayerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioPlayerView.xib; sourceTree = "<group>"; };
+		3EFF720621E9A172007F92F1 /* UIApplication+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Ext.swift"; sourceTree = "<group>"; };
 		41A8DED9680A2D0F93DFA839 /* Pods_Podcasts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Podcasts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C1D46023ABCB8158A0D543 /* Pods-Podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcasts.release.xcconfig"; path = "Pods/Target Support Files/Pods-Podcasts/Pods-Podcasts.release.xcconfig"; sourceTree = "<group>"; };
 		84D3D9C0F3955D0B4F176B00 /* Pods-Podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcasts.debug.xcconfig"; path = "Target Support Files/Pods-Podcasts/Pods-Podcasts.debug.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				3E18D5C421DAAAD40094CE94 /* RSSFeed+Ext.swift */,
 				3E18D5C621DAB2930094CE94 /* UITableView+Ext.swift */,
 				3E700D5921DAF883009515BC /* CMTime+Ext.swift */,
+				3EFF720621E9A172007F92F1 /* UIApplication+Ext.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				3E18D5C521DAAAD40094CE94 /* RSSFeed+Ext.swift in Sources */,
 				3E16A2C321C4CCFF00E2745D /* MainTabBarController.swift in Sources */,
 				3EB3472221C7228F009DE90C /* Podcast.swift in Sources */,
+				3EFF720721E9A172007F92F1 /* UIApplication+Ext.swift in Sources */,
 				3E700D5A21DAF883009515BC /* CMTime+Ext.swift in Sources */,
 				3E3B05E021C86DAC005F4B3B /* PodcastCell.swift in Sources */,
 				3E18D5C321DAA9CA0094CE94 /* String+Ext.swift in Sources */,

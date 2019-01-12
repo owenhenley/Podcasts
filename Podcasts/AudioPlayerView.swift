@@ -10,26 +10,26 @@ import UIKit
 import AVKit
 
 class AudioPlayerView: UIView {
-
-        // MARK: - Outlets
+    
+    // MARK: - Outlets
     
     @IBOutlet weak var openedPlayerStackView: UIStackView!
     @IBOutlet weak var audioPlayerMiniView: UIView!
     
-        // MARK: Mini Player
+    // MARK: Mini Player
     
     @IBOutlet weak var miniEpisodeIconImageView: UIImageView!
     @IBOutlet weak var miniEpisodeTitle: UILabel!
     @IBOutlet weak var miniFastForwardButton: UIButton!
     
-        // MARK: Full Player
-
+    // MARK: Full Player
+    
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var currentTimeSlider: UISlider!
     
-        // MARK: Computed Outlets
+    // MARK: Computed Outlets
     
     @IBOutlet weak var dismissButton: UIButton! {
         didSet {
@@ -51,8 +51,29 @@ class AudioPlayerView: UIView {
         }
     }
     
+    // Concider using an outlet collection to set button content mode...
+    @IBOutlet weak var rewind15Button: UIButton! {
+        didSet {
+            rewind15Button.contentHorizontalAlignment = .fill
+            rewind15Button.contentVerticalAlignment = .fill
+            rewind15Button.imageView?.contentMode = .scaleAspectFit
+            rewind15Button.setImage(PlayerIcons.Rewind, for: .normal)
+        }
+    }
+    @IBOutlet weak var forward15Button: UIButton! {
+        didSet {
+            forward15Button.contentHorizontalAlignment = .fill
+            forward15Button.contentVerticalAlignment = .fill
+            forward15Button.imageView?.contentMode = .scaleAspectFit
+            forward15Button.setImage(PlayerIcons.FastForward, for: .normal)
+        }
+    }
+    
     @IBOutlet weak var playPauseButton: UIButton! {
         didSet {
+            playPauseButton.contentHorizontalAlignment = .fill
+            playPauseButton.contentVerticalAlignment = .fill
+            playPauseButton.imageView?.contentMode = .scaleAspectFit
             playPauseButton.setImage(PlayerIcons.Pause, for: .normal)
             playPauseButton.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
         }
@@ -66,11 +87,12 @@ class AudioPlayerView: UIView {
     
     
     
-        // MARK: - Properties
+    // MARK: - Properties
     
     fileprivate let shrunkenImageScale = CGAffineTransform(scaleX: 0.7, y: 0.7)
+    var panGesture: UIPanGestureRecognizer!
     
-        // MARK: Computed Properties
+    // MARK: Computed Properties
     
     let player: AVPlayer = { // ????????
         let avPlayer = AVPlayer()
@@ -92,17 +114,16 @@ class AudioPlayerView: UIView {
     
     
     
-        // MARK: - Lifecycle
+    // MARK: - Lifecycle
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openAudioPlayerView)))
-        
-        observePlayerCurrentTime()
+        setupGestures()
         
         let time = CMTimeMake(value: 1, timescale: 3)
         let times = [NSValue(time: time)]
+        
         player.addBoundaryTimeObserver(forTimes: times, queue: .main) { [weak self] in // Retain Cycle 1
             print("episode started playing")
             self?.enlargeEpisodeImageView()
@@ -121,9 +142,64 @@ class AudioPlayerView: UIView {
     
         // MARK: - Methods
     
+    fileprivate func setupGestures() {
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openAudioPlayerView)))
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+        audioPlayerMiniView.addGestureRecognizer(panGesture)
+        observePlayerCurrentTime()
+        openedPlayerStackView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanDismissal)))
+    }
+    
+    @objc fileprivate func handlePanDismissal(_ gesture: UIPanGestureRecognizer) {
+        print("opened stack view dismissal")
+        if gesture.state == .changed {
+            let translation = gesture.translation(in: superview)
+            openedPlayerStackView.transform = CGAffineTransform(translationX: 0, y: translation.y)
+        } else if gesture.state == .ended {
+            let translation = gesture.translation(in: superview)
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.openedPlayerStackView.transform = .identity
+                
+                if translation.y > 75 {
+                    let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
+                    mainTabBarController?.lowerAudioPlayerDetails()
+                }
+            })
+        }
+    }
+    
+    @objc func handlePan(gesture: UIPanGestureRecognizer) {
+        if gesture.state == .changed {
+            handlePanChanged(gesture)
+        } else if gesture.state == . ended {
+           handlePanEnded(gesture)
+        }
+    }
+    
+    fileprivate func handlePanChanged(_ gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self.superview)
+        self.transform = CGAffineTransform(translationX: 0, y: translation.y)
+        self.audioPlayerMiniView.alpha = 1 + translation.y / 200
+        self.openedPlayerStackView.alpha = -translation.y / 200
+    }
+    
+    fileprivate func handlePanEnded(_ gesture: UIPanGestureRecognizer) {
+        let stoppedTranslation = gesture.translation(in: self.superview)
+        let velocity = gesture.velocity(in: self.superview)
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.transform = .identity
+            if stoppedTranslation.y < -200 || velocity.y < -500 {
+                UIApplication.mainTabBarController()?.openAudioPlayer(episode: nil)
+            } else {
+                self.audioPlayerMiniView.alpha = 1
+                self.openedPlayerStackView.alpha = 0
+            }
+        })
+    }
+    
     @objc func openAudioPlayerView() {
-        let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
-        mainTabBarController?.openAudioPlayer(episode: nil)
+        UIApplication.mainTabBarController()?.openAudioPlayer(episode: nil)
     }
     
     fileprivate func observePlayerCurrentTime() {
@@ -185,7 +261,7 @@ class AudioPlayerView: UIView {
     
     
     
-        // MARK: - Actions
+    // MARK: - Actions
     
     @IBAction func dismissTapped(_ sender: UIButton) {
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
@@ -207,7 +283,7 @@ class AudioPlayerView: UIView {
     }
     
     @IBAction func forward15Tapped(_ sender: UIButton) {
-       seekToTime(delta: 15)
+        seekToTime(delta: 15)
     }
     
     @IBAction func handleVolumeChange(_ sender: UISlider) {

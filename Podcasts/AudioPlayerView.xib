@@ -19,6 +19,13 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Zp-V4-Sl1">
                     <rect key="frame" x="0.0" y="44" width="375" height="70"/>
                     <subviews>
+                        <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DXa-g9-TGy">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="bSy-FA-Mpr"/>
+                            </constraints>
+                        </view>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FtY-B3-qIz">
                             <rect key="frame" x="8" y="8" width="359" height="48"/>
                             <subviews>
@@ -61,7 +68,10 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="FtY-B3-qIz" secondAttribute="trailing" constant="8" id="3OA-eg-d9Q"/>
+                        <constraint firstAttribute="trailing" secondItem="DXa-g9-TGy" secondAttribute="trailing" id="50T-lC-0dp"/>
                         <constraint firstItem="FtY-B3-qIz" firstAttribute="leading" secondItem="4Zp-V4-Sl1" secondAttribute="leading" constant="8" id="8A9-7S-hgy"/>
+                        <constraint firstItem="DXa-g9-TGy" firstAttribute="leading" secondItem="4Zp-V4-Sl1" secondAttribute="leading" id="8O0-Sn-SPS"/>
+                        <constraint firstItem="DXa-g9-TGy" firstAttribute="top" secondItem="4Zp-V4-Sl1" secondAttribute="top" id="P3B-do-Ura"/>
                         <constraint firstAttribute="bottom" secondItem="FtY-B3-qIz" secondAttribute="bottom" constant="14" id="WkE-Ah-vpC"/>
                         <constraint firstItem="FtY-B3-qIz" firstAttribute="top" secondItem="4Zp-V4-Sl1" secondAttribute="top" constant="8" id="hNE-yr-0T4"/>
                         <constraint firstAttribute="height" constant="70" id="i75-Y4-3NV"/>
@@ -142,6 +152,7 @@
                                         <constraint firstAttribute="width" constant="44" id="XwD-jT-hdw"/>
                                     </constraints>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <inset key="contentEdgeInsets" minX="4" minY="0.0" maxX="4" maxY="0.0"/>
                                     <state key="normal" image="rewind15"/>
                                     <connections>
                                         <action selector="rewind15Tapped:" destination="LJN-r1-ads" eventType="touchUpInside" id="eBw-kx-zg6"/>
@@ -157,6 +168,7 @@
                                         <constraint firstAttribute="width" constant="54" id="Dmh-OD-vP0"/>
                                     </constraints>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                                     <state key="normal" image="play"/>
                                 </button>
                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Y2-KW-iMS">
@@ -169,6 +181,7 @@
                                         <constraint firstAttribute="width" constant="44" id="iBQ-de-Isc"/>
                                     </constraints>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <inset key="contentEdgeInsets" minX="4" minY="0.0" maxX="4" maxY="0.0"/>
                                     <state key="normal" image="fastforward15"/>
                                     <connections>
                                         <action selector="forward15Tapped:" destination="LJN-r1-ads" eventType="touchUpInside" id="Trb-Vq-M7V"/>
@@ -183,7 +196,7 @@
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Mtj-Gh-JOO">
                             <rect key="frame" x="0.0" y="678" width="327" height="32"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="muted_volume" translatesAutoresizingMaskIntoConstraints="NO" id="BXs-Yv-Nbo">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="muted_volume" translatesAutoresizingMaskIntoConstraints="NO" id="BXs-Yv-Nbo">
                                     <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="BXs-Yv-Nbo" secondAttribute="height" id="bKf-6b-mpS"/>
@@ -195,7 +208,7 @@
                                         <action selector="handleVolumeChange:" destination="LJN-r1-ads" eventType="valueChanged" id="Ivm-P5-cTI"/>
                                     </connections>
                                 </slider>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="max_volume" translatesAutoresizingMaskIntoConstraints="NO" id="H0l-2E-SoE">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="max_volume" translatesAutoresizingMaskIntoConstraints="NO" id="H0l-2E-SoE">
                                     <rect key="frame" x="295" y="0.0" width="32" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="H0l-2E-SoE" secondAttribute="height" id="uCq-Cu-rXV"/>
@@ -232,12 +245,14 @@
                 <outlet property="durationLabel" destination="H4E-t5-hBw" id="h6z-T1-n5g"/>
                 <outlet property="episodeIconImageView" destination="3jf-y6-qzW" id="wUN-ig-CyT"/>
                 <outlet property="episodeTitleLabel" destination="Ob3-gh-Iwi" id="w1D-4U-cYu"/>
+                <outlet property="forward15Button" destination="cpz-Xh-8xq" id="HDU-yB-Zow"/>
                 <outlet property="miniEpisodeIconImageView" destination="clM-pU-ioT" id="1dk-Zv-ogf"/>
                 <outlet property="miniEpisodeTitle" destination="tgS-CT-TZj" id="98N-5J-2my"/>
                 <outlet property="miniFastForwardButton" destination="NNB-bz-TWC" id="K1b-VZ-bLw"/>
                 <outlet property="miniPlayPauseButton" destination="qu3-Uv-yFf" id="Q3h-4t-5SA"/>
                 <outlet property="openedPlayerStackView" destination="jvH-Yh-DJz" id="sO6-RX-EJb"/>
                 <outlet property="playPauseButton" destination="07K-ZI-9wD" id="62D-Ro-hF8"/>
+                <outlet property="rewind15Button" destination="xDW-CJ-dMB" id="csg-z3-KOY"/>
             </connections>
             <point key="canvasLocation" x="132" y="89"/>
         </view>
