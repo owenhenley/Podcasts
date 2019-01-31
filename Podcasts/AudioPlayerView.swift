@@ -8,6 +8,7 @@
 
 import UIKit
 import AVKit
+import MediaPlayer
 
 class AudioPlayerView: UIView {
     
@@ -89,12 +90,13 @@ class AudioPlayerView: UIView {
     
     // MARK: - Properties
     
-    fileprivate let shrunkenImageScale = CGAffineTransform(scaleX: 0.7, y: 0.7)
-    var panGesture: UIPanGestureRecognizer!
+    private let shrunkenImageScale = CGAffineTransform(scaleX: 0.7, y: 0.7)
+    private var panGesture: UIPanGestureRecognizer!
+    private var commandCenter = MPRemoteCommandCenter.shared()
     
     // MARK: Computed Properties
     
-    let player: AVPlayer = { // ????????
+    private let player: AVPlayer = { // ????????
         let avPlayer = AVPlayer()
         avPlayer.automaticallyWaitsToMinimizeStalling = false
         return avPlayer
@@ -117,9 +119,12 @@ class AudioPlayerView: UIView {
     // MARK: - Lifecycle
     
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupGestures()
+        setupAudioSession()
+        setupControlCenter()
         
         let time = CMTimeMake(value: 1, timescale: 3)
         let times = [NSValue(time: time)]
@@ -140,9 +145,41 @@ class AudioPlayerView: UIView {
     
     
     
-        // MARK: - Methods
+    // MARK: - Methods
     
-    fileprivate func setupGestures() {
+    private func setupControlCenter() {
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        commandCenter.playCommand.isEnabled = true
+        commandCenter.playCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            self.player.play()
+            self.playPauseButton.setImage(PlayerIcons.Pause, for: .normal)
+            self.miniPlayPauseButton.setImage(PlayerIcons.Pause, for: .normal)
+            return .success
+        }
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.pauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            self.player.pause()
+            self.playPauseButton.setImage(PlayerIcons.Play, for: .normal)
+            self.miniPlayPauseButton.setImage(PlayerIcons.Play, for: .normal)
+            return .success
+        }
+        commandCenter.togglePlayPauseCommand.isEnabled = true
+        commandCenter.togglePlayPauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
+            self.handlePlayPause()            
+            return .success
+        }
+    }
+    
+    private func setupAudioSession() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
+        }
+    }
+    
+    private func setupGestures() {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openAudioPlayerView)))
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         audioPlayerMiniView.addGestureRecognizer(panGesture)
@@ -172,18 +209,18 @@ class AudioPlayerView: UIView {
         if gesture.state == .changed {
             handlePanChanged(gesture)
         } else if gesture.state == . ended {
-           handlePanEnded(gesture)
+            handlePanEnded(gesture)
         }
     }
     
-    fileprivate func handlePanChanged(_ gesture: UIPanGestureRecognizer) {
+    private func handlePanChanged(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: self.superview)
         self.transform = CGAffineTransform(translationX: 0, y: translation.y)
         self.audioPlayerMiniView.alpha = 1 + translation.y / 200
         self.openedPlayerStackView.alpha = -translation.y / 200
     }
     
-    fileprivate func handlePanEnded(_ gesture: UIPanGestureRecognizer) {
+    private func handlePanEnded(_ gesture: UIPanGestureRecognizer) {
         let stoppedTranslation = gesture.translation(in: self.superview)
         let velocity = gesture.velocity(in: self.superview)
         
@@ -202,7 +239,7 @@ class AudioPlayerView: UIView {
         UIApplication.mainTabBarController()?.openAudioPlayer(episode: nil)
     }
     
-    fileprivate func observePlayerCurrentTime() {
+    private func observePlayerCurrentTime() {
         let interval = CMTimeMake(value: 1, timescale: 2)
         player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] (time) in // Retain Cycle 2
             self?.currentTimeLabel.text = time.asDisplayableString()
@@ -212,14 +249,14 @@ class AudioPlayerView: UIView {
         }
     }
     
-    fileprivate func updateCurrentTimeSlider() {
+    private func updateCurrentTimeSlider() {
         let currentTimeInSeconds = CMTimeGetSeconds(player.currentTime())
         let durationInSeconds = CMTimeGetSeconds(player.currentItem?.duration ?? CMTimeMake(value: 1, timescale: 1))
         let sliderPercentage = currentTimeInSeconds / durationInSeconds
         self.currentTimeSlider.value = Float(sliderPercentage)
     }
     
-    @objc fileprivate func handlePlayPause() {
+    @objc private func handlePlayPause() {
         print("Playing Pausing")
         if player.timeControlStatus == .paused {
             player.play()
@@ -234,26 +271,26 @@ class AudioPlayerView: UIView {
         }
     }
     
-    fileprivate func enlargeEpisodeImageView() {
+    private func enlargeEpisodeImageView() {
         UIView.animate(withDuration: 1.1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.episodeIconImageView.transform = .identity
         })
     }
     
-    fileprivate func shrinkEpisodeImageView() {
+    private func shrinkEpisodeImageView() {
         UIView.animate(withDuration: 1.1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.episodeIconImageView.transform = self.shrunkenImageScale
         })
     }
     
-    fileprivate func playEpisode() {
+    private func playEpisode() {
         guard let streamURL = URL(string: episode.streamURL) else { return }
         let playerItem = AVPlayerItem(url: streamURL)
         player.replaceCurrentItem(with: playerItem)
         player.play()
     }
     
-    fileprivate func seekToTime(delta: Int64) {
+    private func seekToTime(delta: Int64) {
         let fifteenSeconds = CMTimeMake(value: delta, timescale: 1)
         let forwardSeek = CMTimeAdd(player.currentTime(), fifteenSeconds)
         player.seek(to: forwardSeek)
