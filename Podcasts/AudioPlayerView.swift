@@ -108,17 +108,24 @@ class AudioPlayerView: UIView {
             episodeTitleLabel.text = episode.title
             miniEpisodeTitle.text = episode.title
             authorLabel.text = episode.author
+            setupNowPlayingInfo()
             guard let imageURL = URL(string: episode.iconURL?.convertedToHTTPS() ?? "") else { return }
             episodeIconImageView.sd_setImage(with: imageURL)
-            miniEpisodeIconImageView.sd_setImage(with: imageURL)
+            // miniEpisodeIconImageView.sd_setImage(with: imageURL)
+            miniEpisodeIconImageView.sd_setImage(with: imageURL) { (image, _, _, _) in
+                guard let image = image else { return }
+                var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+                let artwork = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { (_) -> UIImage in
+                    return image
+                })
+                nowPlayingInfo?[MPMediaItemPropertyArtwork] = artwork
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+            }
         }
     }
     
     
-    
     // MARK: - Lifecycle
-    
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -147,6 +154,13 @@ class AudioPlayerView: UIView {
     
     // MARK: - Methods
     
+    private func setupNowPlayingInfo() {
+        var nowPlayingInfo = [String : Any]()
+        nowPlayingInfo[MPMediaItemPropertyTitle] = episode.title
+        nowPlayingInfo[MPMediaItemPropertyArtist] = episode.author
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+    }
+    
     private func setupControlCenter() {
         UIApplication.shared.beginReceivingRemoteControlEvents()
         commandCenter.playCommand.isEnabled = true
@@ -165,7 +179,7 @@ class AudioPlayerView: UIView {
         }
         commandCenter.togglePlayPauseCommand.isEnabled = true
         commandCenter.togglePlayPauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
-            self.handlePlayPause()            
+            self.handlePlayPause()
             return .success
         }
     }
@@ -245,8 +259,21 @@ class AudioPlayerView: UIView {
             self?.currentTimeLabel.text = time.asDisplayableString()
             let podcastDuration = self?.player.currentItem?.duration
             self?.durationLabel.text = podcastDuration?.asDisplayableString()
+            self?.setupLockScreenCurrentTime()
             self?.updateCurrentTimeSlider()
         }
+    }
+    
+    private func setupLockScreenCurrentTime() {
+        var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+        guard let currentTime = player.currentItem else { return }
+        let durationInSeconds = CMTimeGetSeconds(currentTime.duration)
+        let elapsedTime = CMTimeGetSeconds(player.currentTime())
+        
+        nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = elapsedTime
+        nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = durationInSeconds
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     
     private func updateCurrentTimeSlider() {
