@@ -85,9 +85,9 @@ class AudioPlayerView: UIView {
             miniPlayPauseButton.addTarget(self, action: #selector(handlePlayPause), for: .touchUpInside)
         }
     }
-    
-    
-    
+
+
+
     // MARK: - Properties
     
     private let shrunkenImageScale = CGAffineTransform(scaleX: 0.7, y: 0.7)
@@ -123,8 +123,9 @@ class AudioPlayerView: UIView {
             }
         }
     }
-    
-    
+
+
+
     // MARK: - Lifecycle
     
     override func awakeFromNib() {
@@ -149,7 +150,6 @@ class AudioPlayerView: UIView {
     deinit {
         print("PlayerView memory being reclaimed...")
     }
-    
     
     
     // MARK: - Methods
@@ -322,9 +322,9 @@ class AudioPlayerView: UIView {
         let forwardSeek = CMTimeAdd(player.currentTime(), fifteenSeconds)
         player.seek(to: forwardSeek)
     }
-    
-    
-    
+
+
+
     // MARK: - Actions
     
     @IBAction func dismissTapped(_ sender: UIButton) {
