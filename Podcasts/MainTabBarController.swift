@@ -12,13 +12,11 @@ class MainTabBarController: UITabBarController {
     
         // MARK: - Properties
     
-    let audioPlayerView = AudioPlayerView.initFromNib()
-    var openedTopAnchorConstraint: NSLayoutConstraint!
-    var loweredTopAnchorConstraint: NSLayoutConstraint!
-    var bottomAnchorConstraint: NSLayoutConstraint!
-    
-    
-    
+    private let audioPlayerView = AudioPlayerView.initFromNib()
+    private var openedTopAnchorConstraint: NSLayoutConstraint!
+    private var loweredTopAnchorConstraint: NSLayoutConstraint!
+    private var bottomAnchorConstraint: NSLayoutConstraint!
+
         // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -26,12 +24,10 @@ class MainTabBarController: UITabBarController {
         setupNavigation()
         setupAudioPlayerView()
     }
-    
-    
-    
+
         // MARK: - Setup Methods
     
-    fileprivate func setupNavigation() {
+    private func setupNavigation() {
         UINavigationBar.appearance().prefersLargeTitles = true
         tabBar.tintColor = .purple
         viewControllers = [
@@ -41,8 +37,7 @@ class MainTabBarController: UITabBarController {
         ]
     }
     
-    fileprivate func setupAudioPlayerView() {
-        // audioPlayerView.backgroundColor = .red
+    private func setupAudioPlayerView() {
         audioPlayerView.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(audioPlayerView, belowSubview: tabBar)
         
@@ -59,9 +54,7 @@ class MainTabBarController: UITabBarController {
         audioPlayerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
     }
-    
-    
-    
+
         // MARK: - Methods
     
     @objc func lowerAudioPlayerDetails() {
@@ -76,7 +69,7 @@ class MainTabBarController: UITabBarController {
             self.audioPlayerView.audioPlayerMiniView.alpha = 1
         })
     }
-    
+
     func openAudioPlayer(episode: Episode?, playlistEpisodes: [Episode] = []) {
         loweredTopAnchorConstraint.isActive = false
         openedTopAnchorConstraint.isActive = true
@@ -86,9 +79,9 @@ class MainTabBarController: UITabBarController {
         if episode != nil {
             audioPlayerView.episode = episode            
         }
-        
+
         audioPlayerView.playlistEpisodes = playlistEpisodes
-        
+
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
             self.tabBar.transform = CGAffineTransform(translationX: 0, y: 100)
@@ -96,13 +89,11 @@ class MainTabBarController: UITabBarController {
             self.audioPlayerView.audioPlayerMiniView.alpha = 0
         })
     }
-    
-    
-    
-        // MARK: - Helper Methods
+
+        // MARK: - Private/Helper Methods
     
     // Navigation View Controller helper maker function
-    fileprivate func generateNavigationController(with rootViewController: UIViewController, title: String, andImage image: UIImage) -> UIViewController {
+    private func generateNavigationController(with rootViewController: UIViewController, title: String, andImage image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
         // navController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
         rootViewController.navigationItem.title = title
@@ -110,6 +101,4 @@ class MainTabBarController: UITabBarController {
         navController.tabBarItem.image = image
         return navController
     }
-    
-    
 }
