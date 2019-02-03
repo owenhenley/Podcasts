@@ -77,7 +77,7 @@ class MainTabBarController: UITabBarController {
         })
     }
     
-    func openAudioPlayer(episode: Episode?) {
+    func openAudioPlayer(episode: Episode?, playlistEpisodes: [Episode] = []) {
         loweredTopAnchorConstraint.isActive = false
         openedTopAnchorConstraint.isActive = true
         openedTopAnchorConstraint.constant = 0
@@ -86,6 +86,8 @@ class MainTabBarController: UITabBarController {
         if episode != nil {
             audioPlayerView.episode = episode            
         }
+        
+        audioPlayerView.playlistEpisodes = playlistEpisodes
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()

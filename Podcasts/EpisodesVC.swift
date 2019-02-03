@@ -57,15 +57,9 @@ class EpisodesVC: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let episode = self.episodes[indexPath.row]
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
-        mainTabBarController?.openAudioPlayer(episode: episode)
-        
-        // let audioPlayerView = AudioPlayerView.initFromNib()
-        // audioPlayerView.frame = self.view.frame
-        // let window = UIApplication.shared.keyWindow
-        // window?.addSubview(audioPlayerView)
+        mainTabBarController?.openAudioPlayer(episode: episode, playlistEpisodes: episodes)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

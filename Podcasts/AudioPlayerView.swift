@@ -93,6 +93,7 @@ class AudioPlayerView: UIView {
     private let shrunkenImageScale = CGAffineTransform(scaleX: 0.7, y: 0.7)
     private var panGesture: UIPanGestureRecognizer!
     private var commandCenter = MPRemoteCommandCenter.shared()
+    var playlistEpisodes = [Episode]()
     
     // MARK: Computed Properties
     
@@ -125,14 +126,13 @@ class AudioPlayerView: UIView {
 
     // MARK: - Lifecycle
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupGestures()
         setupAudioSession()
         setupControlCenter()
-        setupLockScreenDuration()
         observeBoundryTime()
+
     }
     
     static func initFromNib() -> AudioPlayerView {
@@ -171,7 +171,11 @@ class AudioPlayerView: UIView {
     
     private func setupControlCenter() {
         UIApplication.shared.beginReceivingRemoteControlEvents()
+        observePlayerCurrentTime()
         commandCenter.playCommand.isEnabled = true
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.togglePlayPauseCommand.isEnabled = true
+        
         commandCenter.playCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
             self.player.play()
             self.playPauseButton.setImage(PlayerIcons.Pause, for: .normal)
@@ -179,7 +183,6 @@ class AudioPlayerView: UIView {
             self.setupElapsedTime()
             return .success
         }
-        commandCenter.pauseCommand.isEnabled = true
         commandCenter.pauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
             self.player.pause()
             self.playPauseButton.setImage(PlayerIcons.Play, for: .normal)
@@ -187,11 +190,58 @@ class AudioPlayerView: UIView {
             self.setupElapsedTime()
             return .success
         }
-        commandCenter.togglePlayPauseCommand.isEnabled = true
         commandCenter.togglePlayPauseCommand.addTarget { (_) -> MPRemoteCommandHandlerStatus in
             self.handlePlayPause()
             return .success
         }
+        commandCenter.nextTrackCommand.addTarget(self, action: #selector(handleNextTrack))
+        commandCenter.previousTrackCommand.addTarget(self, action: #selector(handlePreviousTrack))
+    }
+    
+    @objc fileprivate func handleNextTrack() {
+        print("next episode")
+        if playlistEpisodes.count == 0 {
+            return
+        }
+        
+        let currentEpisodeIndex = playlistEpisodes.index { (ep) -> Bool in
+            return self.episode.title == ep.title && self.episode.author == ep.author
+        }
+        
+        guard let index = currentEpisodeIndex else { return }
+        
+        let nextEpisode: Episode
+        
+        if index == playlistEpisodes.count - 1 {
+            nextEpisode = playlistEpisodes[0]
+        } else {
+            nextEpisode = playlistEpisodes[index + 1]
+        }
+        self.episode = nextEpisode
+    }
+    
+    @objc fileprivate func handlePreviousTrack() {
+        print("previous episode")
+        if playlistEpisodes.count == 0 {
+            return
+        }
+        
+        let currentEpisodeIndex = playlistEpisodes.index { (episode) -> Bool in
+            return self.episode.title == episode.title && self.episode.author == episode.author
+        }
+        
+        guard let index = currentEpisodeIndex else { return }
+        
+        let previousEpisode: Episode
+        
+        if index == 0 {
+            let count = playlistEpisodes.count
+            previousEpisode = playlistEpisodes[count - 1]
+        } else {
+            previousEpisode = playlistEpisodes[index - 1]
+        }
+        self.episode = previousEpisode
+        
     }
     
     private func setupElapsedTime() {
@@ -212,7 +262,6 @@ class AudioPlayerView: UIView {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openAudioPlayerView)))
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
         audioPlayerMiniView.addGestureRecognizer(panGesture)
-        observePlayerCurrentTime()
         openedPlayerStackView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanDismissal)))
     }
     
