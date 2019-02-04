@@ -21,21 +21,26 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigation()
+        setupViewControllers()
         setupAudioPlayerView()
     }
 
         // MARK: - Setup Methods
-    
-    private func setupNavigation() {
+
+    private func setupViewControllers() {
         UINavigationBar.appearance().prefersLargeTitles = true
         tabBar.tintColor = .purple
+        let layout = UICollectionViewFlowLayout()
+        let favoritesController = FavoritesCVC(collectionViewLayout: layout)
+        let searchController = SearchVC()
+        
         viewControllers = [
-            generateNavigationController(with: SearchVC(), title: "Search", andImage: TabBarIcon.Search),
-            generateNavigationController(with: ViewController(), title: "Favorites", andImage: TabBarIcon.Favorites),
+            generateNavigationController(with: favoritesController, title: "Favorites", andImage: TabBarIcon.Favorites),
+            generateNavigationController(with: searchController, title: "Search", andImage: TabBarIcon.Search),
             generateNavigationController(with: ViewController(), title: "Downloads", andImage: TabBarIcon.Downloads)
         ]
     }
+    
     
     private func setupAudioPlayerView() {
         audioPlayerView.translatesAutoresizingMaskIntoConstraints = false
