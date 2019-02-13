@@ -24,7 +24,7 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        searchBar(searchController.searchBar, textDidChange: "brianvoong")
+        searchBar(searchController.searchBar, textDidChange: "npr")
     }
     
     

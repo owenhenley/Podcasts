@@ -14,7 +14,6 @@ class EpisodesVC: UITableViewController {
     
     // MARK: - Properties
     private var episodes = [Episode]()
-    private let favoritedPodcastKey = "favoritedPodcastKey"
     
     // MARK: Computed Properties
     var podcast: Podcast? {
@@ -47,28 +46,36 @@ class EpisodesVC: UITableViewController {
     }
     
     // MARK: - Methods
-    @objc private func handleSaveFavorite() {
-        print("Saving info into UserDefaults")
-
-        guard let podcast = self.podcast else { return }
-
-        // 1. Transform Podcast into Data
-        // Discontinued in iOS 12
-        let data = NSKeyedArchiver.archivedData(withRootObject: podcast)
-
-        UserDefaults.standard.set(data, forKey: favoritedPodcastKey)
-    }
-
     @objc private func handleFetchSavedPodcasts() {
         print("Fetching saved Podcasts from UserDefaults")
-        let value = UserDefaults.standard.value(forKey: favoritedPodcastKey) as? String
+        let value = UserDefaults.standard.value(forKey: UserDefaults.favoritedPodcastKey) as? String
         print(value ?? "")
 
         // How to retrieve our Podcast object from UserDefaults
-        guard let data = UserDefaults.standard.data(forKey: favoritedPodcastKey) else { return }
+        guard let data = UserDefaults.standard.data(forKey: UserDefaults.favoritedPodcastKey) else { return }
         // Discontinued in iOS 12
         let podcast = NSKeyedUnarchiver.unarchiveObject(with: data) as? Podcast
+
+        let savedPodcasts = NSKeyedUnarchiver.unarchiveObject(with: data) as? [Podcast]
+
+        savedPodcasts?.forEach { (podcast) in
+            print(podcast.trackName ?? "")
+        }
+
         print(podcast?.trackName ?? "", podcast?.artistName ?? "")
+    }
+
+    @objc private func handleSaveFavorite() {
+        print("Saving info into UserDefaults")
+        guard let podcast = self.podcast else { return }
+
+        // 1. Transform Podcast into Data
+        var listOfPodcasts = UserDefaults.standard.savedPodcasts()
+        listOfPodcasts.append(podcast)
+        // Discontinued in iOS 12
+        let data = NSKeyedArchiver.archivedData(withRootObject: listOfPodcasts)
+
+        UserDefaults.standard.set(data, forKey: UserDefaults.favoritedPodcastKey)
     }
 
     private func fetchEpisodes() {

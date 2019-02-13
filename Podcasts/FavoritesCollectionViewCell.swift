@@ -10,9 +10,17 @@ import UIKit
 
 class FavoritesCollectionViewCell: UICollectionViewCell {
     
-    let imageView = UIImageView(image: Icon.Default)
-    let nameLabel = UILabel()
-    let artistNameLabel = UILabel()
+    private let imageView = UIImageView(image: Icon.Default)
+    private let nameLabel = UILabel()
+    private let artistNameLabel = UILabel()
+    var podcast: Podcast! {
+        didSet {
+            nameLabel.text = podcast.trackName
+            artistNameLabel.text = podcast.artistName
+            let url = URL(string: podcast.artworkUrl600 ?? "")
+            imageView.sd_setImage(with: url)
+        }
+    }
 
     
     override init(frame: CGRect) {

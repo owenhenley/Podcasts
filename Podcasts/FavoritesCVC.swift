@@ -12,37 +12,67 @@ import UIKit
 class FavoritesCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     private let reuseIdentifier = "cellId"
+    private var podcasts = UserDefaults.standard.savedPodcasts()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
     }
     
-        // MARK: - Helpers
-    
+    // MARK: - Helpers
     private func setupCollectionView() {
         collectionView.backgroundColor = .white
         // Register cell classes
         self.collectionView!.register(FavoritesCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+
+        // FIXME: Implement UIForceTouchCapability??
+        
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        collectionView.addGestureRecognizer(gesture)
     }
 
-    // MARK: - Navigation
-    
-    
+    @objc private func handleLongPress(gesture: UILongPressGestureRecognizer) {
+        print("podcast")
+        let location = gesture.location(in: collectionView)
+        guard let selectedIndexPath = collectionView.indexPathForItem(at: location) else { return }
+        print(selectedIndexPath.item)
 
-    // MARK: UICollectionViewDataSource
+        let alert = UIAlertController(title: "Delete Saved Podcast?", message: nil, preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "Yes", style: .destructive) { (_) in
+            let podcastToDelete = self.podcasts[selectedIndexPath.item]
+            self.podcasts.remove(at: selectedIndexPath.item)
+            UserDefaults.standard.deletePodcast(podcast: podcastToDelete)
+            self.collectionView.deleteItems(at: [selectedIndexPath])
+        }
 
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+
+        alert.preferredAction = deleteAction
+
+        present(alert, animated: true)
+    }
+
+    // MARK: - UICollectionViewDataSource
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return podcasts.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        guard
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? FavoritesCollectionViewCell
+        else {
+            return UICollectionViewCell()
+        }
+
+        cell.podcast = self.podcasts[indexPath.item]
+
         return cell
     }
 
-    // MARK: UICollectionViewDelegate
-    
+    // MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSize = (view.frame.width - 3 * 16) / 2
         return CGSize(width: cellSize, height: cellSize + 46)
