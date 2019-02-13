@@ -35,8 +35,8 @@ class MainTabBarController: UITabBarController {
         let searchController = SearchVC()
         
         viewControllers = [
-            generateNavigationController(with: favoritesController, title: "Favorites", andImage: TabBarIcon.Favorites),
             generateNavigationController(with: searchController, title: "Search", andImage: TabBarIcon.Search),
+            generateNavigationController(with: favoritesController, title: "Favorites", andImage: TabBarIcon.Favorites),
             generateNavigationController(with: ViewController(), title: "Downloads", andImage: TabBarIcon.Downloads)
         ]
     }
