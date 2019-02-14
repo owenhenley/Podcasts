@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3E0672EB2208CEAC00BE4954 /* FavoritesCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0672EA2208CEAC00BE4954 /* FavoritesCVC.swift */; };
+		3E0672EB2208CEAC00BE4954 /* FavoritesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0672EA2208CEAC00BE4954 /* FavoritesVC.swift */; };
 		3E0672EE2208D3E100BE4954 /* FavoritesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0672EC2208D3E100BE4954 /* FavoritesCollectionViewCell.swift */; };
 		3E0672EF2208D3E100BE4954 /* FavoritesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E0672ED2208D3E100BE4954 /* FavoritesCollectionViewCell.xib */; };
 		3E0EFAB821D9605F0016E8F7 /* EpisodesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0EFAB721D9605F0016E8F7 /* EpisodesVC.swift */; };
@@ -43,7 +43,7 @@
 /* Begin PBXFileReference section */
 		10890BFF143F4527D1B36A57 /* Pods-Podcasts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcasts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Podcasts/Pods-Podcasts.debug.xcconfig"; sourceTree = "<group>"; };
 		1594606B282AEC9E94173210 /* Pods-Podcasts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcasts.release.xcconfig"; path = "Target Support Files/Pods-Podcasts/Pods-Podcasts.release.xcconfig"; sourceTree = "<group>"; };
-		3E0672EA2208CEAC00BE4954 /* FavoritesCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCVC.swift; sourceTree = "<group>"; };
+		3E0672EA2208CEAC00BE4954 /* FavoritesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesVC.swift; sourceTree = "<group>"; };
 		3E0672EC2208D3E100BE4954 /* FavoritesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCollectionViewCell.swift; sourceTree = "<group>"; };
 		3E0672ED2208D3E100BE4954 /* FavoritesCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoritesCollectionViewCell.xib; sourceTree = "<group>"; };
 		3E0EFAB721D9605F0016E8F7 /* EpisodesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesVC.swift; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 				3E9E48C021C5E7CE00FFBCF6 /* ViewController.swift */,
 				3E9E48C721C5EC7D00FFBCF6 /* SearchVC.swift */,
 				3E0EFAB721D9605F0016E8F7 /* EpisodesVC.swift */,
-				3E0672EA2208CEAC00BE4954 /* FavoritesCVC.swift */,
+				3E0672EA2208CEAC00BE4954 /* FavoritesVC.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -390,7 +390,7 @@
 				3E0672EE2208D3E100BE4954 /* FavoritesCollectionViewCell.swift in Sources */,
 				3E9E48C121C5E7CE00FFBCF6 /* ViewController.swift in Sources */,
 				3E3778B921D9DCEE008349FD /* DateHelper.swift in Sources */,
-				3E0672EB2208CEAC00BE4954 /* FavoritesCVC.swift in Sources */,
+				3E0672EB2208CEAC00BE4954 /* FavoritesVC.swift in Sources */,
 				3E18D5C721DAB2930094CE94 /* UITableView+Ext.swift in Sources */,
 				3E9E48C421C5EA2D00FFBCF6 /* Constants.swift in Sources */,
 				3E796AA92214B40900EF8D68 /* UserDefaults+Ext.swift in Sources */,

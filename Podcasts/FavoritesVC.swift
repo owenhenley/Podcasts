@@ -1,5 +1,5 @@
 //
-//  FavoritesCVC.swift
+//  FavoritesVC.swift
 //  Podcasts
 //
 //  Created by Owen Henley on 2/4/19.
@@ -9,7 +9,7 @@
 import UIKit
 
 
-class FavoritesCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class FavoritesVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     private let reuseIdentifier = "cellId"
     private var podcasts = UserDefaults.standard.savedPodcasts()
@@ -17,6 +17,13 @@ class FavoritesCVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        podcasts = UserDefaults.standard.savedPodcasts()
+        collectionView.reloadData()
+        UIApplication.mainTabBarController()?.viewControllers?[1].tabBarItem.badgeValue = nil
     }
     
     // MARK: - Helpers
@@ -73,6 +80,12 @@ class FavoritesCVC: UICollectionViewController, UICollectionViewDelegateFlowLayo
     }
 
     // MARK: - UICollectionViewDelegate
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let episodesVC = EpisodesVC()
+        episodesVC.podcast = self.podcasts[indexPath.item]
+        navigationController?.pushViewController(episodesVC, animated: true)
+    }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSize = (view.frame.width - 3 * 16) / 2
         return CGSize(width: cellSize, height: cellSize + 46)

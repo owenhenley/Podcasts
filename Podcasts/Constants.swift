@@ -16,19 +16,23 @@ struct Icon {
 struct TabBarIcon {
     static let Downloads = UIImage(named: "downloads")!
     static let Favorites = UIImage(named: "favorites")!
-    static let Search    = UIImage(named: "search")!
+    static let Search = UIImage(named: "search")!
 }
 
 struct PlayerIcons {
     static let FastForward = UIImage(named: "fastforward15")!
-    static let Rewind      = UIImage(named: "rewind15")!
-    static let Play        = UIImage(named: "play")!
-    static let Pause       = UIImage(named: "pause")!
-    static let MaxVolume   = UIImage(named: "max_volume")!
-    static let Muted       = UIImage(named: "muted_volume")!
+    static let Rewind = UIImage(named: "rewind15")!
+    static let Play = UIImage(named: "play")!
+    static let Pause = UIImage(named: "pause")!
+    static let MaxVolume = UIImage(named: "max_volume")!
+    static let Muted = UIImage(named: "muted_volume")!
 }
 
 struct TableCells {
     static let podcastSearchCell = "podcastSearchCell"
     static let podcastEpisodeCell = "podcastEpisodeCell"
+}
+
+struct NavBar {
+    static let Heart = UIImage(named: "heart")!
 }

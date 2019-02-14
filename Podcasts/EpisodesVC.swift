@@ -32,10 +32,14 @@ class EpisodesVC: UITableViewController {
     
     // MARK: - Setup Methods
     private func setupNavigationBarButtons() {
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(title: "Favorite", style: .plain, target: self, action: #selector(handleSaveFavorite)),
-            UIBarButtonItem(title: "Fetch", style: .plain, target: self, action: #selector(handleFetchSavedPodcasts))
-        ]
+        let savedPodcasts = UserDefaults.standard.savedPodcasts()
+        let hasFavorited = savedPodcasts.index(where: { $0.trackName == self.podcast?.trackName && $0.artistName == self.podcast?.artistName }) != nil
+
+        if hasFavorited {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: NavBar.Heart, style: .plain, target: self, action: nil)
+        } else {
+            navigationItem.rightBarButtonItems = [ UIBarButtonItem(title: "Favorite", style: .plain, target: self, action: #selector(handleSaveFavorite)) ]
+        }
     }
 
     private func setupTableView() {
@@ -76,6 +80,10 @@ class EpisodesVC: UITableViewController {
         let data = NSKeyedArchiver.archivedData(withRootObject: listOfPodcasts)
 
         UserDefaults.standard.set(data, forKey: UserDefaults.favoritedPodcastKey)
+
+        showBadgeHighlight()
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: NavBar.Heart, style: .plain, target: self, action: nil)
     }
 
     private func fetchEpisodes() {
@@ -84,6 +92,10 @@ class EpisodesVC: UITableViewController {
             self.episodes = episodes
             self.tableView.reloadOnMainThread()
         }
+    }
+
+    private func showBadgeHighlight() {
+        UIApplication.mainTabBarController()?.viewControllers?[1].tabBarItem.badgeValue = "New"
     }
     
     // MARK: - Table view data source

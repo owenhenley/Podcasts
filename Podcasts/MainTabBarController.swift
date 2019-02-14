@@ -31,7 +31,7 @@ class MainTabBarController: UITabBarController {
         UINavigationBar.appearance().prefersLargeTitles = true
         tabBar.tintColor = .purple
         let layout = UICollectionViewFlowLayout()
-        let favoritesController = FavoritesCVC(collectionViewLayout: layout)
+        let favoritesController = FavoritesVC(collectionViewLayout: layout)
         let searchController = SearchVC()
         
         viewControllers = [
