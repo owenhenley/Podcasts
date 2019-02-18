@@ -33,11 +33,12 @@ class MainTabBarController: UITabBarController {
         let layout = UICollectionViewFlowLayout()
         let favoritesController = FavoritesVC(collectionViewLayout: layout)
         let searchController = SearchVC()
+        let downloadsController = DownloadsVC()
         
         viewControllers = [
             generateNavigationController(with: searchController, title: "Search", andImage: TabBarIcon.Search),
             generateNavigationController(with: favoritesController, title: "Favorites", andImage: TabBarIcon.Favorites),
-            generateNavigationController(with: ViewController(), title: "Downloads", andImage: TabBarIcon.Downloads)
+            generateNavigationController(with: downloadsController, title: "Downloads", andImage: TabBarIcon.Downloads)
         ]
     }
     
