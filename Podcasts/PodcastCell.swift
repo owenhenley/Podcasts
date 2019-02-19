@@ -22,11 +22,12 @@ class PodcastCell: UITableViewCell {
             artistName.text  = podcast.artistName
             episodeCount.text = "\(podcast.trackCount ?? 0) Episodes"
             guard let imageURL = URL(string: podcast.artworkUrl600 ?? "") else { return }
+            podcastArt.layer.cornerRadius = 3
             podcastArt.sd_setImage(with: imageURL, completed: nil)
             
             // URLSession.shared.dataTask(with: imageURL) { (data, response, error) in
             //     if let error = error {
-            //         print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
+            //         print("Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription)")
             //         return
             //     }
             //

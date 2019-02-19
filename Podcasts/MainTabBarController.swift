@@ -10,26 +10,23 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     
-        // MARK: - Properties
-    
+    // MARK: - Properties
     private let audioPlayerView = AudioPlayerView.initFromNib()
     private var openedTopAnchorConstraint: NSLayoutConstraint!
     private var loweredTopAnchorConstraint: NSLayoutConstraint!
     private var bottomAnchorConstraint: NSLayoutConstraint!
 
-        // MARK: - Lifecycle
-    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewControllers()
         setupAudioPlayerView()
     }
 
-        // MARK: - Setup Methods
-
+    // MARK: - Setup Methods
     private func setupViewControllers() {
         UINavigationBar.appearance().prefersLargeTitles = true
-        tabBar.tintColor = .purple
+        tabBar.tintColor = .red
         let layout = UICollectionViewFlowLayout()
         let favoritesController = FavoritesVC(collectionViewLayout: layout)
         let searchController = SearchVC()
@@ -41,8 +38,7 @@ class MainTabBarController: UITabBarController {
             generateNavigationController(with: downloadsController, title: "Downloads", andImage: TabBarIcon.Downloads)
         ]
     }
-    
-    
+
     private func setupAudioPlayerView() {
         audioPlayerView.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(audioPlayerView, belowSubview: tabBar)
@@ -61,8 +57,7 @@ class MainTabBarController: UITabBarController {
         
     }
 
-        // MARK: - Methods
-    
+    // MARK: - Methods
     @objc func lowerAudioPlayerDetails() {
         openedTopAnchorConstraint.isActive = false
         bottomAnchorConstraint.constant = view.frame.height
@@ -96,8 +91,7 @@ class MainTabBarController: UITabBarController {
         })
     }
 
-        // MARK: - Private/Helper Methods
-    
+    // MARK: - Private/Helper Methods
     // Navigation View Controller helper maker function
     private func generateNavigationController(with rootViewController: UIViewController, title: String, andImage image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)

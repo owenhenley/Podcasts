@@ -11,6 +11,8 @@ import Alamofire
 import FeedKit
 
 class APIService {
+
+    typealias EpisodeDownloadCompleteTuple = (fileURL: String, episodeTitle: String)
     
     // MARK: - Properties
     let baseiTunesSearchURL = "https://itunes.apple.com/search"
@@ -23,7 +25,7 @@ class APIService {
 
         Alamofire.request(baseiTunesSearchURL, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseData { (dataResponse) in
             if let error = dataResponse.error {
-                print("❌ Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription) ❌")
+                print("  Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription)  ")
                 return
             }
             
@@ -32,7 +34,7 @@ class APIService {
                 let searchResult = try JSONDecoder().decode(SearchResults.self, from: data)
                 completionHandler(searchResult.results)
             } catch {
-                print("❌ Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription) ❌")
+                print("  Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription)  ")
             }
         }
     }
@@ -46,7 +48,7 @@ class APIService {
                 print("Success:", result.isSuccess)
                 
                 if let error = result.error {
-                    print("❌ Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription) ❌")
+                    print("  Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription)  ")
                     return
                 }
                 
@@ -58,12 +60,18 @@ class APIService {
     }
 
     func downloadEpisode(episode: Episode) {
-        print("downlading \(episode.title ?? ""), Stream url: \(episode.streamURL)")
+        print("downlading \(episode.title ), Stream url: \(episode.streamURL)")
         let downloadRequest = DownloadRequest.suggestedDownloadDestination()
         Alamofire.download(episode.streamURL, to: downloadRequest).downloadProgress { (progress) in
-            print(progress.fractionCompleted)
+            // Notify downloads controller of download progress
+            NotificationCenter.default.post(name: .downloadProgress, object: nil, userInfo: [
+                "title" : episode.title ,
+                "downloadProgress" : progress.fractionCompleted
+                ])
             }.response { (response) in
                 print(response.destinationURL?.absoluteString ?? "")
+                let episodeDownloadComplete = EpisodeDownloadCompleteTuple(fileURL: response.destinationURL?.absoluteString ?? "", episodeTitle: episode.title)
+                NotificationCenter.default.post(name: .downloadComplete, object: episodeDownloadComplete, userInfo: nil)
                 var downloadedEpisodes = UserDefaults.standard.downloadedEpisodes()
                 guard let index = downloadedEpisodes.firstIndex(where: {
                     $0.title == episode.title &&
@@ -77,7 +85,7 @@ class APIService {
                     let data = try JSONEncoder().encode(downloadedEpisodes)
                     UserDefaults.standard.set(data, forKey: UserDefaults.downloadedEpisodesKey)
                 } catch {
-                    print("❌ Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription) ❌")
+                    print("  Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription)  ")
                 }
         }
     }

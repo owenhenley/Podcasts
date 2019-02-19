@@ -104,7 +104,7 @@ class AudioPlayerView: UIView {
             episodeTitleLabel.text = episode.title
             miniEpisodeTitle.text = episode.title
             authorLabel.text = episode.author
-            guard let imageURL = URL(string: episode.iconURL?.convertedToHTTPS() ?? "") else { return }
+            guard let imageURL = URL(string: episode.iconURL?.convertedToHTTPS() ?? "" ) else { return }
             episodeIconImageView.sd_setImage(with: imageURL)
             miniEpisodeIconImageView.sd_setImage(with: imageURL) { (image, _, _, _) in
                 guard let image = image else { return }
@@ -268,7 +268,7 @@ class AudioPlayerView: UIView {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
-            print("❌ ERROR in \(#file), \(#function), \(error),\(error.localizedDescription) ❌")
+            print("  ERROR in \(#file), \(#function), \(error),\(error.localizedDescription)  ")
         }
     }
     

@@ -16,7 +16,7 @@ extension UserDefaults {
     func deleteEpisode(episode: Episode) {
         let savedEpisodes = downloadedEpisodes()
         let filteredEpisodes = savedEpisodes.filter { (filteredEpisode) -> Bool in
-            // you should use episode.collectionId to be safer with deletes
+            // Use episode.collectionId to be safer with deletes
             return filteredEpisode.title != episode.title
         }
 
@@ -24,7 +24,7 @@ extension UserDefaults {
             let data = try JSONEncoder().encode(filteredEpisodes)
             UserDefaults.standard.set(data, forKey: UserDefaults.downloadedEpisodesKey)
         } catch {
-            print("❌ Error in File: \(#file), Function: \(#function), Line: \(#line), Message: \(error). \(error.localizedDescription) ❌")
+            print("  Error in File: \(#file), Function: \(#function), Line: \(#line), Message: \(error). \(error.localizedDescription)  ")
         }
     }
 
@@ -35,7 +35,7 @@ extension UserDefaults {
             let data = try JSONEncoder().encode(episodes)
             UserDefaults.standard.set(data, forKey: UserDefaults.downloadedEpisodesKey)
         } catch {
-            print("❌ Error in File: \(#file), Function: \(#function), Line: \(#line), Message: \(error). \(error.localizedDescription) ❌")
+            print("  Error in File: \(#file), Function: \(#function), Line: \(#line), Message: \(error). \(error.localizedDescription)  ")
         }
     }
 
@@ -45,7 +45,7 @@ extension UserDefaults {
             let episodes = try JSONDecoder().decode([Episode].self, from: episodesData)
             return episodes
         } catch {
-            print("❌ Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription) ❌")
+            print("  Error in File: \(#file), /nFunction: \(#function), /nLine: \(#line), /nMessage: \(error). \(error.localizedDescription)  ")
         }
         return []
     }

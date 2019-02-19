@@ -11,9 +11,11 @@ import UIKit
 
 class FavoritesVC: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
+    // MARK: - Properties
     private let reuseIdentifier = "cellId"
     private var podcasts = UserDefaults.standard.savedPodcasts()
-    
+
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
@@ -32,7 +34,7 @@ class FavoritesVC: UICollectionViewController, UICollectionViewDelegateFlowLayou
         // Register cell classes
         self.collectionView!.register(FavoritesCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
-        // FIXME: Implement UIForceTouchCapability??
+        // TODO: - Implement UIForceTouchCapability??
         
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         collectionView.addGestureRecognizer(gesture)

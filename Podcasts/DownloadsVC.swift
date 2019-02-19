@@ -18,6 +18,34 @@ class DownloadsVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        setupObservers()
+    }
+
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDownloadProgress), name: .downloadProgress, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDownloadComplete), name: .downloadComplete, object: nil)
+    }
+
+    @objc func handleDownloadComplete(notification: Notification) {
+        guard let episodeDownloadComplete = notification.object as? APIService.EpisodeDownloadCompleteTuple else { return }
+        guard let index = self.episodes.firstIndex(where: { $0.title == episodeDownloadComplete.episodeTitle }) else { return }
+        self.episodes[index].fileURL = episodeDownloadComplete.fileURL
+    }
+
+    @objc func handleDownloadProgress(notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String : Any] else { return }
+        guard let progress = userInfo["downloadProgress"] as? Double else { return }
+        guard let title = userInfo["title"] as? String else { return }
+        print(title, progress)
+
+        guard let index = self.episodes.firstIndex(where: { $0.title == title }) else { return }
+        guard let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? EpisodeCell else { return }
+        cell.progressLabel.isHidden = false
+        cell.progressLabel.text = "\(Int(progress * 100))%"
+
+        if progress == 1 {
+            cell.progressLabel.isHidden = true
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,7 +75,6 @@ class DownloadsVC: UITableViewController {
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
             present(alert, animated: true, completion: nil)
-            print("No fileURL")
         }
     }
 

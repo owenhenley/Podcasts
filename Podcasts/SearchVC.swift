@@ -12,30 +12,24 @@ import Alamofire
 class SearchVC: UITableViewController, UISearchBarDelegate {
     
     // MARK: - Properties
-    
     let searchController = UISearchController(searchResultsController: nil)
     var podcasts = [Podcast]()
     var timer: Timer?
     var searchingActivityIndictor = Bundle.main.loadNibNamed("PodcastsSearchingView", owner: self, options: nil)?.first as? UIView
-    
-    
+
     // MARK: - LifeCycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        searchBar(searchController.searchBar, textDidChange: "npr")
     }
     
-    
     // MARK: - SetupFunctions
-    
     fileprivate func setupViews() {
         setupSearchBar()
         setupTableView()
     }
     
-    fileprivate func setupSearchBar() {
+    private func setupSearchBar() {
         self.definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -43,15 +37,15 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         searchController.searchBar.delegate = self
     }
     
-    fileprivate func setupTableView() {
+    private func setupTableView() {
         tableView.tableFooterView = UIView()
         let nib = UINib(nibName: "PodcastCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: TableCells.podcastSearchCell)
         tableView.keyboardDismissMode = .onDrag
     }
     
-        // MARK: - Methods
-    fileprivate func addActivityIndicator() -> UIView {
+    // MARK: - Methods
+    private func addActivityIndicator() -> UIView {
         let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicator.color = .blue
         activityIndicator.startAnimating()
@@ -66,11 +60,8 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         view.addSubview(activityView)
         return activityView
     }
-    
-    
-    
-        // MARK: - UISearchBar Methods
-    
+
+    // MARK: - UISearchBar Methods
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         podcasts = []
         tableView.reloadData()
@@ -82,11 +73,8 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
             }
         })
     }
-    
-    
-    
-        // MARK: - UITableView DataSource
-    
+
+    // MARK: - UITableView DataSource
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let episodesVC = EpisodesVC()
         let podcast = self.podcasts[indexPath.row]
@@ -132,5 +120,4 @@ class SearchVC: UITableViewController, UISearchBarDelegate {
         cell.podcast = podcast
         return cell
     }
-    
 }

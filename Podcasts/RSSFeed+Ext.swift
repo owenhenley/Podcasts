@@ -18,7 +18,7 @@ extension RSSFeed {
             var parsedEpisode = Episode(feedItem: feedItem)
             
             if parsedEpisode.iconURL == nil {
-                parsedEpisode.iconURL = iconURL
+                parsedEpisode.iconURL = iconURL ?? ""
             }
             
             parsedEpisodes.append(parsedEpisode)
