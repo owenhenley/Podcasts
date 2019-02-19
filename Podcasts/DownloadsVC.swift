@@ -10,9 +10,11 @@ import UIKit
 
 class DownloadsVC: UITableViewController {
 
+    // MARK: - Properties
     private let cellId = "downloadsCellId"
     private var episodes = UserDefaults.standard.downloadedEpisodes()
 
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -24,17 +26,29 @@ class DownloadsVC: UITableViewController {
         tableView.reloadData()
     }
 
-        // MARK: - Setup
+    // MARK: - Setup
     private func setupTableView() {
         let nib = UINib(nibName: "EpisodeCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: cellId)
     }
 
-        // MARK: - UITableView
-
+    // MARK: - UITableView
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let episode = self.episodes[indexPath.row]
-        UIApplication.mainTabBarController()?.openAudioPlayer(episode: episode, playlistEpisodes: self.episodes)
+        if episode.fileURL != nil {
+            UIApplication.mainTabBarController()?.openAudioPlayer(episode: episode, playlistEpisodes: self.episodes)
+        } else {
+            let alert = UIAlertController(title: "Oops!",
+                                          message: "Sorry, The podcast's downloaded file could not be not found 🤔, play using the stream instead?",
+                                          preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (_) in
+                UIApplication.mainTabBarController()?.openAudioPlayer(episode: episode, playlistEpisodes: self.episodes)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+            present(alert, animated: true, completion: nil)
+            print("No fileURL")
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

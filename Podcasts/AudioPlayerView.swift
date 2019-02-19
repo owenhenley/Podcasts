@@ -13,25 +13,21 @@ import MediaPlayer
 class AudioPlayerView: UIView {
     
     // MARK: - Outlets
-    
     @IBOutlet weak var openedPlayerStackView: UIStackView!
     @IBOutlet weak var audioPlayerMiniView: UIView!
     
     // MARK: Mini Player
-    
     @IBOutlet weak var miniEpisodeIconImageView: UIImageView!
     @IBOutlet weak var miniEpisodeTitle: UILabel!
     @IBOutlet weak var miniFastForwardButton: UIButton!
     
     // MARK: Full Player
-    
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var currentTimeSlider: UISlider!
     
     // MARK: Computed Outlets
-    
     @IBOutlet weak var dismissButton: UIButton! {
         didSet {
             dismissButton.contentHorizontalAlignment = .center
@@ -61,6 +57,7 @@ class AudioPlayerView: UIView {
             rewind15Button.setImage(PlayerIcons.Rewind, for: .normal)
         }
     }
+
     @IBOutlet weak var forward15Button: UIButton! {
         didSet {
             forward15Button.contentHorizontalAlignment = .fill
@@ -86,17 +83,13 @@ class AudioPlayerView: UIView {
         }
     }
 
-
-
     // MARK: - Properties
-    
     private let shrunkenImageScale = CGAffineTransform(scaleX: 0.7, y: 0.7)
     private var panGesture: UIPanGestureRecognizer!
     private var commandCenter = MPRemoteCommandCenter.shared()
     var playlistEpisodes = [Episode]()
     
     // MARK: Computed Properties
-    
     private let player: AVPlayer = { // ????????
         let avPlayer = AVPlayer()
         avPlayer.automaticallyWaitsToMinimizeStalling = false
@@ -123,10 +116,7 @@ class AudioPlayerView: UIView {
         }
     }
 
-
-
     // MARK: - Lifecycle
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupGestures()
@@ -144,7 +134,6 @@ class AudioPlayerView: UIView {
     }
 
     // MARK: - Methods
-    
     private func setupInteruptionObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: nil)
     }
@@ -222,7 +211,7 @@ class AudioPlayerView: UIView {
         commandCenter.previousTrackCommand.addTarget(self, action: #selector(handlePreviousTrack))
     }
     
-    @objc fileprivate func handleNextTrack() {
+    @objc private func handleNextTrack() {
         print("next episode")
         if playlistEpisodes.count == 0 {
             return
@@ -244,7 +233,7 @@ class AudioPlayerView: UIView {
         self.episode = nextEpisode
     }
     
-    @objc fileprivate func handlePreviousTrack() {
+    @objc private func handlePreviousTrack() {
         print("previous episode")
         if playlistEpisodes.count == 0 {
             return
@@ -290,7 +279,7 @@ class AudioPlayerView: UIView {
         openedPlayerStackView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanDismissal)))
     }
     
-    @objc fileprivate func handlePanDismissal(_ gesture: UIPanGestureRecognizer) {
+    @objc private func handlePanDismissal(_ gesture: UIPanGestureRecognizer) {
         print("opened stack view dismissal")
         if gesture.state == .changed {
             let translation = gesture.translation(in: superview)
@@ -389,10 +378,22 @@ class AudioPlayerView: UIView {
     }
     
     private func playEpisode() {
-        guard let streamURL = URL(string: episode.streamURL) else { return }
-        let playerItem = AVPlayerItem(url: streamURL)
-        player.replaceCurrentItem(with: playerItem)
-        player.play()
+        if episode.fileURL != nil {
+            guard let fileURL = URL(string: episode.fileURL ?? "") else { return }
+            let fileName = fileURL.lastPathComponent
+
+            guard var trueLocation = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+            trueLocation.appendPathComponent(fileName)
+
+            let playerItem = AVPlayerItem(url: trueLocation)
+            player.replaceCurrentItem(with: playerItem)
+            player.play()
+        } else {
+            guard let streamURL = URL(string: episode.streamURL) else { return }
+            let playerItem = AVPlayerItem(url: streamURL)
+            player.replaceCurrentItem(with: playerItem)
+            player.play()
+        }
     }
     
     private func seekToTime(delta: Int64) {
@@ -401,10 +402,7 @@ class AudioPlayerView: UIView {
         player.seek(to: forwardSeek)
     }
 
-
-
     // MARK: - Actions
-    
     @IBAction func dismissTapped(_ sender: UIButton) {
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
         mainTabBarController?.lowerAudioPlayerDetails()
