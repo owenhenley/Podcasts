@@ -104,6 +104,9 @@ class EpisodesVC: UITableViewController {
         let downloadAction = UITableViewRowAction(style: .normal, title: "Download") { (_, _) in
             let episode = self.episodes[indexPath.row]
             UserDefaults.standard.downloadEpisode(episode: episode)
+
+            // Download podcast episode using Alamofire
+            APIService.shared.downloadEpisode(episode: episode)
         }
         return [downloadAction]
     }

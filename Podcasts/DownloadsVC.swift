@@ -32,6 +32,11 @@ class DownloadsVC: UITableViewController {
 
         // MARK: - UITableView
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let episode = self.episodes[indexPath.row]
+        UIApplication.mainTabBarController()?.openAudioPlayer(episode: episode, playlistEpisodes: self.episodes)
+    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return episodes.count
     }
